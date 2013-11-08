@@ -1,4 +1,4 @@
 name:     Recipe Site
 markdown: redcarpet
 pygments: true
-baseurl:  /RecipeSite
+url:      /RecipeSite
