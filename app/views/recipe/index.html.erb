@@ -1,0 +1,18 @@
+<h1>Recipe first page</h1>
+
+<table>
+	<thead>
+		<tr>
+			<th>Title</th>
+			<th>Description</th>
+		</tr>
+	</thead>
+	<tbody>
+		<% @recipe.all.each do |rb| %>
+		<tr>
+			<td> <%= rb.title %> </td>
+			<td> <%= rb.description %> </td>
+		</tr>
+		<%end%>
+	</tbody>
+</table>
