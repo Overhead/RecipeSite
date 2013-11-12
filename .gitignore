@@ -20,3 +20,6 @@
 
 # GH-Pages output
 /_site
+
+#Open files
+*.*~ 
