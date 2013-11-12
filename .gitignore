@@ -17,3 +17,6 @@
 
 #Ingore project file
 .project
+
+# GH-Pages output
+/_site

@@ -14,3 +14,13 @@
 # Ignore all logfiles and tempfiles.
 /log/*.log
 /tmp
+
+<<<<<<< HEAD
+#Ingore project file
+.project
+=======
+
+
+# GH-Pages output
+/_site
+>>>>>>> 57b597ed71e30859eb323fe554d4117408528f6a
