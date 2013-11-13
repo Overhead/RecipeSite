@@ -39,6 +39,14 @@ group :doc do
   gem 'sdoc', require: false
 end
 
+
+# OmniAuth for facebook
+gem 'omniauth-facebook', '~> 1.4'
+
+# OmniAuth for google+
+gem 'omniauth-gplus', '~> 1.2'
+
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.1.2'
 

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131112091917) do
+ActiveRecord::Schema.define(version: 20131113092953) do
 
   create_table "ingredients", force: true do |t|
     t.string   "title"
@@ -65,6 +65,10 @@ ActiveRecord::Schema.define(version: 20131112091917) do
     t.text     "email"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "provider"
+    t.string   "uid"
   end
+
+  add_index "users", ["uid"], name: "index_users_on_uid"
 
 end
