@@ -9,7 +9,7 @@ class Recipe < ActiveRecord::Base
   require 'json'
   
   def self.get_recipes_from_api()
-    uri = URI.parse("http://api.yummly.com/v1/api/recipes?_app_id=3044c145&_app_key=1cef424e5a98c833444fce312467c24a&allowedIngredient[]=flour&allowedIngredient[]=milk")
+    uri = URI.parse("http:")
     # Shortcut
     response = Net::HTTP.get_response(uri)
     # Will print response.body

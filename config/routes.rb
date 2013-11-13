@@ -1,16 +1,16 @@
 RecipeSite::Application.routes.draw do
   get "search_recipes/index"
-  resources :recipe 
   
-  get "recipe/index"
-  get "search_recipes/index"
+  resources :recipe 
+  resources :search_recipes
+  
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
   
-  get "/searchRecipe" => "search_recipes#search_recipes"
+  post "/searchRecipe" => "search_recipes#search_recipes"
   
   # You can have the root of your site routed with "root"
-   root 'search_recipes#index'
+  root 'search_recipes#index'
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
