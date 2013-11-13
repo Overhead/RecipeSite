@@ -15,11 +15,14 @@
 /log/*.log
 /tmp
 
-#Ingore project file
+# Ingore project file
 .project
 
 # GH-Pages output
 /_site
 
-#Open files
+# Open files
 *.*~ 
+
+# API authentication
+auth_secrets.rb

@@ -10,11 +10,22 @@
 		</tr>
 	</thead>
 	<tbody>
-		<% @recipe.all.each do |rb| %>
+		<% @recipe.all.each do |recipe| %>
 		<tr>
-			<td> <%= rb.title %> </td>
-			<td> <%= rb.description %> </td>
+			<td> <%= recipe.title %> </td>
+			<td> <%= recipe.description %> </td>
 		</tr>
 		<%end%>
 	</tbody>
 </table>
+
+<% if current_user %>
+	Welcome
+	uid: <%= current_user.uid %>
+	<br>
+	id: <%= current_user.id %>!
+	<br>
+  <%= link_to "Sign Out", signout_path %>
+<% else %>
+  <%= link_to "Sign in with Google", "/auth/gplus" %>
+<% end %>
