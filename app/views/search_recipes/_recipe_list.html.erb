@@ -1,0 +1,8 @@
+<% if @recipeResult %>
+	<% @recipeResult.each do |rb| %>
+	<tr>        
+    	<td> <%= rb['recipeName'] %> </td>
+    	<td> <%= rb['ingredients'].length %> </td>
+    </tr>
+	<%end%>
+<%end%>

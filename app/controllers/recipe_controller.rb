@@ -4,4 +4,5 @@ class RecipeController < ApplicationController
     @recipe = Recipe.all
     respond_with(@recipe)
   end
+  
 end
