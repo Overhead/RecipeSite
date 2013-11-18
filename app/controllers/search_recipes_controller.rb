@@ -6,7 +6,7 @@ class SearchRecipesController < ApplicationController
   end
     
   def search_recipes
-    @recipeResult = Recipe.get_recipes_from_api()
+    @recipeResult = Recipe.get_recipes_from_api(params[:ingredients])
     respond_to do |format|
     format.html { redirect_to @search_recipe }
       format.js   {}

@@ -8,8 +8,15 @@ class Recipe < ActiveRecord::Base
   require "uri"
   require 'json'
   
-  def self.get_recipes_from_api()
-    uri = URI.parse("http://api.yummly.com/v1/api/recipes?_app_id="+ENV['APP_ID']+"&_app_key="+ENV['APP_KEY']+"&allowedIngredient[]=flour&allowedIngredient[]=milk")
+  def self.get_recipes_from_api(ingredients)
+    
+    allowedIngredientString = ""
+        
+    ingredients.squish.split(/,\s*/).each do |ingred|
+      allowedIngredientString += "&allowedIngredient[]="+ingred
+    end
+            
+    uri = URI.parse("http://api.yummly.com/v1/api/recipes?_app_id="+ENV['APP_ID']+"&_app_key="+ENV['APP_KEY']+allowedIngredientString)
     # Shortcut
     response = Net::HTTP.get_response(uri)
     # Will print response.body

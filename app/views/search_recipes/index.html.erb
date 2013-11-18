@@ -1,13 +1,24 @@
 
 <div class="container-fluid">
  
- <%= label_tag "Search for recipe" %>
+ <%= label_tag "Search for recipe", nil, :class => 'search-label'%>
  <%= form_tag("/searchRecipe", :class=>'form-inline', :id => 'search-form', :remote => true) do %>
- <%= text_field_tag	'search_text' , nil,  :placeholder => 'Type in ingredients' %>
+ <%= text_field_tag	'search_text' , nil,  :placeholder => 'Type in ingredients, Ex: milk, flour', :name => 'ingredients', :class => 'input-xxlarge' %>
  <%= button_tag "Search", :class => 'btn btn-primary' %>
  <% end %>
  
- <table class="table table-striped">
+ <div id="search_settings_group">
+    <button class="btn dropdown" data-toggle="collapse" data-target="#search_settings" data-parent="#search_settings_group">Extend for more settings <i class="icon-chevron-down"></i></button>
+    <div class="accordion-group" style="border: 0px;">
+        <div class="collapse indent" id="search_settings">
+            Search settings
+        </div>
+    </div>
+</div>
+ 
+  
+</br >
+ <table class="table table-hover table-condensed table-responsive">
         <thead>
                 <tr>
                         <th>Name</th>
@@ -18,6 +29,5 @@
  			<%= render :partial => "search_recipes/recipe_list" %>
 		</tbody>
 </table>
- 
-</br >
+
 </div>
