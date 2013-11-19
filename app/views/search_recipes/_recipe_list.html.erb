@@ -1,8 +1,84 @@
-<% if @recipeResult %>
-	<% @recipeResult.each do |rb| %>
-	<tr>        
-    	<td> <%= rb['recipeName'] %> </td>
-    	<td> <%= rb['ingredients'].length %> </td>
-    </tr>
-	<%end%>
-<%end%>
+<table class="table table-hover table-condensed table-responsive">
+	<thead>
+		<tr>
+			<th></th>
+			<th></th>
+		</tr>
+	</thead>
+	<tbody id="recipe-result-body">
+		<% if @recipeResult %>
+		<h4>Found <%= @recipeResult['totalMatchCount'] %> recipes</h4>
+		<div class="pagination">
+		  <ul>
+		    <li><a href="#">Prev</a></li>
+		    <li><a href="#">1</a></li>
+		    <li><a href="#">2</a></li>
+		    <li><a href="#">3</a></li>
+		    <li><a href="#">4</a></li>
+		    <li><a href="#">5</a></li>
+		    <li><a href="#">Next</a></li>
+		  </ul>
+		</div>
+		<% @recipeResult['matches'].each do |rb| %>
+		<tr onmouseover="this.style.cursor='pointer'"
+                        onclick="DoNav('/recipe')">
+			<td class="search-table-image"> <%= image_tag rb['smallImageUrls'].first%></td>
+			<td> 
+				<%= rb['recipeName'] %> </br> 
+				<i class="icon-time"></i> <%= (rb['totalTimeInSeconds'].to_i / 60).to_s %> Minutes </br> 
+				<i class="icon-star"></i> <%= rb['rating'].to_f %> / 6.0 </br> 
+				<a class="ingredients-link btn btn-info btn-small disabled" title="Ingredients"><%= rb['ingredients'].length %> Ingredients
+				<div class="ingredients-well" style="display: none">	
+					<ul>
+						<% rb['ingredients'].each do |ingred| %>
+						<li>
+							<%= ingred %>
+						</li>
+						<%end%>
+					</ul>
+				</div> 
+				</a>
+			</td>
+		</tr>
+		<%end%>
+		<%= javascript_include_tag "search_recipes" %>	
+		<%end%>
+	</tbody>
+</table> 
+
+<!-- 
+<div class="row-fluid">
+  <div class="span12">
+    <div class="row-fluid" id="recipe-result-body">
+    <% if @recipeResult %>
+    <% @recipeResult['matches'].each do |rb| %>
+      <div class="span6" style="margin-left: 0px; margin-top: 10px;" onmouseover="this.style.cursor='pointer'"
+                        onclick="DoNav('/recipe')">
+      	<div class="row-fluid">
+          <div class="span6" style="margin-left: 0px; width: 100px;">
+          	<%= image_tag rb['smallImageUrls'].first%> </br>
+          	<a class="ingredients-link" title="Ingredients"><%= rb['ingredients'].length %> Ingredients
+				<div class="ingredients-well" style="display: none">	
+					<ul>
+						<% rb['ingredients'].each do |ingred| %>
+						<li>
+							<%= ingred %>
+						</li>
+						<%end%>
+					</ul>
+				</div> 
+			</a>
+          </div>
+          <div class="span6" style="margin-left: 5px;">
+          	<%= rb['recipeName'] %> </br>
+			<i class="icon-time"></i> <%= (rb['totalTimeInSeconds'].to_i / 60).to_s %> Minutes </br>
+			<i class="icon-star"></i> <%= rb['rating'].to_f %> / 6.0 </br>
+          </div>
+        </div>  
+      </div>
+    <%end%>
+    <%= javascript_include_tag "search_recipes" %>	
+    <%end%>
+    </div>
+  </div>
+</div> -->

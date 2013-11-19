@@ -1,3 +1,2 @@
-$('#recipe-table').css('display','inline');
 $("#recipe-result-body").empty();
 $("<%= escape_javascript(render :partial => "search_recipes/recipe_list") %>").appendTo("#recipe-result-body");

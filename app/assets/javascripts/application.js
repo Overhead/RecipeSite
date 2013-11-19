@@ -15,3 +15,12 @@
 //= require twitter/bootstrap
 //= require turbolinks
 //= require_tree .
+
+function DoNav(theUrl) {
+        
+ window.open(
+  theUrl,
+  '_blank'//, // <- This is what makes it open in a new window.
+  //"width=400,height=400"
+);
+}

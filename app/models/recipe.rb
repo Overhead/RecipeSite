@@ -10,11 +10,11 @@ class Recipe < ActiveRecord::Base
   
   def self.get_recipes_from_api(params)
     
-    apiAuthString = "http://api.yummly.com/v1/api/recipes?_app_id="+ENV['APP_ID']+"&_app_key="+ENV['APP_KEY']+"&q="
+    apiAuthString = "http://api.yummly.com/v1/api/recipes?_app_id="+ENV['APP_ID']+"&_app_key="+ENV['APP_KEY']
     apiSearchString = ""
     
-    if params[:ingredients]
-      apiSearchString += getIngredientString(params[:ingredients])
+    if params[:search_string]
+      apiSearchString += getAPISearchString(params[:search_string])
     end
     
     if params[:checked_cuisines]
@@ -25,6 +25,7 @@ class Recipe < ActiveRecord::Base
       apiSearchString += "&maxTotalTimeInSeconds="+(params[:max_minutes].to_i * 60).to_s
     end
     
+    puts apiSearchString
     uri = URI.parse(apiAuthString+apiSearchString)
     # Shortcut
     response = Net::HTTP.get_response(uri)
@@ -33,13 +34,21 @@ class Recipe < ActiveRecord::Base
     # Full
     http = Net::HTTP.new(uri.host, uri.port)
     response = http.request(Net::HTTP::Get.new(uri.request_uri))
-    parsed = JSON.parse(response.body)['matches']
+    parsed = JSON.parse(response.body)
   end
 
-  def self.getIngredientString(ingredients)
+  
+  def self.getAPISearchString(search_string)
     allowedIngredientString = ""
+    
+    if search_string.include? ";"
+      newlist =  search_string.split(/;\s*/)
+      allowedIngredientString += "&q="+newlist[0].to_s.gsub(" ", "+")
+      search_string = (newlist[1] != nil ? newlist[1] : "")
+    end
+    
     #Remove all newlines, and long spaces, then split string into array with each ingredient
-    ingredients.squish.split(/,\s*/).each do |ingred|
+    search_string.squish.split(/,\s*/).each do |ingred|
       allowedIngredientString += "&allowedIngredient[]="+ingred
     end
     return allowedIngredientString
