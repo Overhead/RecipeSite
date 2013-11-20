@@ -1,9 +1,11 @@
+<h1>Heia index search_recipes</h1>
+<!-- 
 <div class="container-fluid">
  
 <%= label_tag "Search for recipe", nil, :class => 'search-label'%>
- <%= form_tag("/searchRecipe", :class=>'form-inline', :id => 'search-form', :remote => true) do %>
+ <%= form_tag("/searchRecipe", :class=>'form-inline', :id => 'search-form',  :method => :get) do %>
 	 <%= text_field_tag	'search_text' , nil,  :placeholder => 'Ex: Milk, flour, ....', :name => 'search_string', :class => 'input-xxlarge' %>
-	 <%= button_tag "Search", :class => 'btn btn-primary' %>
+	 <%= button_tag "Search", :class => 'btn btn-primary', :name => nil %>
 	 
 	 <div id="search_settings_group">
 	    <a class="dropdown" data-toggle="collapse" data-target="#search_settings" data-parent="#search_settings_group">Extend for more settings <i class="icon-chevron-down"></i></a>
@@ -31,7 +33,8 @@
 	        </div>
 	    </div>
 	</div>
-<% end %> <!-- form_tag end--> 
+<% end %>  form_tag end
 </br >
 <%= render :partial => "search_recipes/recipe_list" %>
 </div>
+-->

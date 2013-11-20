@@ -8,6 +8,11 @@ class Recipe < ActiveRecord::Base
   require "uri"
   require 'json'
   
+  def self.get_request_url(full_path, host_path)
+    full_path.gsub("http://"+host_path, "")
+  end
+  
+  
   def self.get_recipes_from_api(params)
     
     apiAuthString = "http://api.yummly.com/v1/api/recipes?_app_id="+ENV['APP_ID']+"&_app_key="+ENV['APP_KEY']

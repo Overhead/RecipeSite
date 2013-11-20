@@ -51,6 +51,7 @@
   <div class="span12">
     <div class="row-fluid" id="recipe-result-body">
     <% if @recipeResult %>
+    <div id="request-url"> <%= @requesturl %> </div>
     <% @recipeResult['matches'].each do |rb| %>
       <div class="span6" style="margin-left: 0px; margin-top: 10px;" onmouseover="this.style.cursor='pointer'"
                         onclick="DoNav('/recipe')">
