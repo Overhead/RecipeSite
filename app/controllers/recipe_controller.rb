@@ -5,4 +5,10 @@ class RecipeController < ApplicationController
     respond_with(@recipe)
   end
   
+  def show
+    @recipe = Recipe.find(params[:id])
+    @ingred = Ingredient.find(1)
+    respond_with(@recipe)
+  end
+  
 end

@@ -54,7 +54,7 @@
     <div id="request-url"> <%= @requesturl %> </div>
     <% @recipeResult['matches'].each do |rb| %>
       <div class="span6" style="margin-left: 0px; margin-top: 10px;" onmouseover="this.style.cursor='pointer'"
-                        onclick="DoNav('/recipe')">
+                        onclick="DoNav('/searchRecipe/#{rb.id}')">
       	<div class="row-fluid">
           <div class="span6" style="margin-left: 0px; width: 100px;">
           	<%= image_tag rb['smallImageUrls'].first%> </br>

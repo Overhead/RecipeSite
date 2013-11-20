@@ -1,0 +1,11 @@
+<h1>Name <%= @recipe.recipeName %> </h1>
+
+<h2>Ingredients</h2>
+<% @recipe.ingredients.each do |i| %>
+<h4><%= i.title %></h4>
+<%end%>
+
+<h2>Recipes</h2>
+<% @ingred.recipes.each do |r| %>
+<h4> <%= r.recipeName %></h4>
+<%end%>
