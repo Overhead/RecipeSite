@@ -46,15 +46,15 @@
 	</tbody>
 </table> 
 -->
- 
+<!-- 
 <div class="row-fluid">
   <div class="span12">
     <div class="row-fluid" id="recipe-result-body">
     <% if @recipeResult %>
-    <div id="request-url"> <%= @requesturl %> </div>
+    <div id="request-url" style="display: none;"> <%= @requesturl %> </div>
     <% @recipeResult['matches'].each do |rb| %>
       <div class="span6" style="margin-left: 0px; margin-top: 10px;" onmouseover="this.style.cursor='pointer'"
-                        onclick="DoNav('/searchRecipe/#{rb.id}')">
+                        onclick="DoNav('<%= search_recipe_path(rb['id'])%>')">
       	<div class="row-fluid">
           <div class="span6" style="margin-left: 0px; width: 100px;">
           	<%= image_tag rb['smallImageUrls'].first%> </br>
@@ -82,4 +82,20 @@
     <%end%>
     </div>
   </div>
+</div>-->
+
+<div class="row-fluid" id="recipe-result-body">
+	<% if @recipeResult %>
+	<div id="request-url" style="display: none;"> <%= @requesturl %> </div>
+    <% @recipeResult['matches'].each do |rb| %>
+		<div class="recipe-image">
+			<%= image_tag rb['smallImageUrls'].first%> </br>
+		</div>
+		<div class="recipe-info">
+			<%= rb['recipeName'] %> </br>
+			<i class="icon-time"></i> <%= (rb['totalTimeInSeconds'].to_i / 60).to_s %> Minutes </br>
+			<i class="icon-star"></i> <%= rb['rating'].to_f %> / 6.0 </br>
+		</div>
+	<%end%>
+	<%end%>
 </div>
