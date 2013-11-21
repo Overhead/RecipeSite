@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131120181112) do
+ActiveRecord::Schema.define(version: 20131121170706) do
 
   create_table "cuisines", force: true do |t|
     t.string   "name"
@@ -85,6 +85,12 @@ ActiveRecord::Schema.define(version: 20131120181112) do
     t.datetime "updated_at"
     t.string   "provider"
     t.string   "uid"
+    t.string   "given_name"
+    t.string   "family_name"
+    t.string   "link"
+    t.string   "picture"
+    t.string   "gender"
+    t.string   "locale"
   end
 
   add_index "users", ["uid"], name: "index_users_on_uid"
