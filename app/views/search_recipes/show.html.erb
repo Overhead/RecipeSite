@@ -1,1 +1,12 @@
-<h1> Heia recipe_search</h1>
+<h1> <%= @recipe['name'] %> </h1>
+
+<div class="recipe-image" style="display: inline-block;vertical-align: middle;"> 
+	<%= image_tag @recipe['images'].last['hostedLargeUrl'] %> 
+</div>
+<div class="recipe-info" style="display: inline-block; vertical-align: top;"> 
+	<ul>
+	<% @recipe['ingredientLines'].each do |line| %>
+		<li><%= line %></li>
+	<%end%>
+	</ul>	
+</div>

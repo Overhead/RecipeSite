@@ -8,3 +8,40 @@
 
 .search-table-image {width: 90px;}
 
+.search-box {
+  background-image:url('https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcQ1ErByHt37RPhsV1p8TAsugUWXDDApUvtNrQ44T5gRDEn2mJcgfA')
+}
+
+.recipe-list-item-image {
+  float:left;
+  margin-left: 0px;
+}
+
+.recipe-list-item-info {
+   float: left;
+   margin-left: 2px;
+}
+
+.recipe-list-item-parent {
+  width: 200px;
+  background-color: cornflowerblue;
+  border: solid 4px darkseagreen;
+  margin-bottom: 10px;
+  color: whitesmoke;
+  font-weight: bold;
+}
+
+.flex-container-results {
+  /* We first create a flex layout context */
+  display: flex;
+  
+  /* Then we define the flow direction and if we allow the items to wrap 
+   * Remember this is the same as:
+   * flex-direction: row;
+   * flex-wrap: wrap;
+   */
+  flex-flow: row wrap;
+  
+  /* Then we define how is distributed the remaining space */
+  justify-content: space-around;
+}
