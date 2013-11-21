@@ -46,10 +46,13 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </a>
-          <a class="brand" href="#">RecipeSite</a>
+          <a class="brand" href="/">RecipeSite</a>
           <div class="container-fluid nav-collapse">
             <ul class="nav">
-              <li><%= link_to "Link1", "#" %></li>
+              <li>
+                <%= link_to "Login G+", "/auth/gplus" unless current_user%>
+                <%= link_to "Logout", "/signout" unless !current_user %>
+              </li>
             </ul>
           </div><!--/.nav-collapse -->
         </div>
