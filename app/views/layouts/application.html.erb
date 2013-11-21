@@ -51,7 +51,7 @@
             <ul class="nav">
               <li>
                 <%= link_to "Login G+", "/auth/gplus" unless current_user%>
-                <%= link_to "Logout", "/signout" unless !current_user %>
+                <%= link_to "Logout", "/signout" if current_user %>
               </li>
             </ul>
           </div><!--/.nav-collapse -->
