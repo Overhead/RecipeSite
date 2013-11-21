@@ -1,101 +1,35 @@
-<!-- <table class="table table-hover table-condensed table-responsive">
-	<thead>
-		<tr>
-			<th></th>
-			<th></th>
-		</tr>
-	</thead>
-	<tbody id="recipe-result-body">
-		<% if @recipeResult %>
-		<h4>Found <%= @recipeResult['totalMatchCount'] %> recipes</h4>
-		<div class="pagination">
-		  <ul>
-		    <li><a href="#">Prev</a></li>
-		    <li><a href="#">1</a></li>
-		    <li><a href="#">2</a></li>
-		    <li><a href="#">3</a></li>
-		    <li><a href="#">4</a></li>
-		    <li><a href="#">5</a></li>
-		    <li><a href="#">Next</a></li>
-		  </ul>
-		</div>
-		<% @recipeResult['matches'].each do |rb| %>
-		<tr onmouseover="this.style.cursor='pointer'"
-                        onclick="DoNav('/recipe')">
-			<td class="search-table-image"> <%= image_tag rb['smallImageUrls'].first%></td>
-			<td> 
-				<%= rb['recipeName'] %> </br> 
-				<i class="icon-time"></i> <%= (rb['totalTimeInSeconds'].to_i / 60).to_s %> Minutes </br> 
-				<i class="icon-star"></i> <%= rb['rating'].to_f %> / 6.0 </br> 
-				<a class="ingredients-link btn btn-info btn-small disabled" title="Ingredients"><%= rb['ingredients'].length %> Ingredients
-				<div class="ingredients-well" style="display: none">	
-					<ul>
-						<% rb['ingredients'].each do |ingred| %>
-						<li>
-							<%= ingred %>
-						</li>
-						<%end%>
-					</ul>
-				</div> 
-				</a>
-			</td>
-		</tr>
-		<%end%>
-		<%= javascript_include_tag "search_recipes" %>	
-		<%end%>
-	</tbody>
-</table> 
--->
-<!-- 
-<div class="row-fluid">
-  <div class="span12">
-    <div class="row-fluid" id="recipe-result-body">
-    <% if @recipeResult %>
-    <div id="request-url" style="display: none;"> <%= @requesturl %> </div>
-    <% @recipeResult['matches'].each do |rb| %>
-      <div class="span6" style="margin-left: 0px; margin-top: 10px;" onmouseover="this.style.cursor='pointer'"
-                        onclick="DoNav('<%= search_recipe_path(rb['id'])%>')">
-      	<div class="row-fluid">
-          <div class="span6" style="margin-left: 0px; width: 100px;">
-          	<%= image_tag rb['smallImageUrls'].first%> </br>
-          	<a class="ingredients-link" title="Ingredients"><%= rb['ingredients'].length %> Ingredients
-				<div class="ingredients-well" style="display: none">	
-					<ul>
-						<% rb['ingredients'].each do |ingred| %>
-						<li>
-							<%= ingred %>
-						</li>
-						<%end%>
-					</ul>
-				</div> 
-			</a>
-          </div>
-          <div class="span6" style="margin-left: 5px;">
-          	<%= rb['recipeName'] %> </br>
-			<i class="icon-time"></i> <%= (rb['totalTimeInSeconds'].to_i / 60).to_s %> Minutes </br>
-			<i class="icon-star"></i> <%= rb['rating'].to_f %> / 6.0 </br>
-          </div>
-        </div>  
-      </div>
-    <%end%>
-    <%= javascript_include_tag "search_recipes" %>	
-    <%end%>
-    </div>
-  </div>
-</div>-->
-
 <div class="row-fluid" id="recipe-result-body">
 	<% if @recipeResult %>
 	<div id="request-url" style="display: none;"> <%= @requesturl %> </div>
+	
+    <div class="flex-container-results">
     <% @recipeResult['matches'].each do |rb| %>
-		<div class="recipe-image">
+    <div class="recipe-list-item-parent" onmouseover="this.style.cursor='pointer'"
+                        onclick="DoNav('<%= search_recipe_path(rb['id'])%>')">
+    	<div>
+    		<%= rb['recipeName'] %>
+    	</div>
+		<div class="recipe-list-item-image">
 			<%= image_tag rb['smallImageUrls'].first%> </br>
 		</div>
-		<div class="recipe-info">
-			<%= rb['recipeName'] %> </br>
+		<div class="recipe-list-item-info">
 			<i class="icon-time"></i> <%= (rb['totalTimeInSeconds'].to_i / 60).to_s %> Minutes </br>
 			<i class="icon-star"></i> <%= rb['rating'].to_f %> / 6.0 </br>
+			<a class="ingredients-link btn btn-warning btn-small disabled" title="Ingredients"><%= rb['ingredients'].length %> Ingredients
+                <div class="ingredients-well" style="display: none;">        
+                        <ul>
+                                <% rb['ingredients'].each do |ingred| %>
+                                <li>
+                                        <%= ingred %>
+                                </li>
+                                <%end%>
+                        </ul>
+                </div> 
+            </a>
 		</div>
+	</div>
 	<%end%>
+	<%= javascript_include_tag "search_recipes" %> 
+	</div>
 	<%end%>
 </div>

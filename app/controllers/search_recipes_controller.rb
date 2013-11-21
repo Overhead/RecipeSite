@@ -18,7 +18,7 @@ class SearchRecipesController < ApplicationController
   end 
   
   def show
-    #@recipe = Recipe.get_recipe_from_api(params[:id])
+    @recipe = Recipe.get_recipe_from_api(params[:id])
   end
     
 end

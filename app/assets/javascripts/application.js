@@ -19,11 +19,12 @@
 window.addEventListener("popstate", popstate);
 
 function DoNav(theUrl) {       
-	 window.open(
-	  theUrl,
-	  '_blank'//, // <- This is what makes it open in a new window.
+	 document.location.href = theUrl;
+	 //window.open(
+	 // theUrl
+	  //'_blank'//, // <- This is what makes it open in a new window.
 	  //"width=400,height=400"
-	);
+	//);
 }
 
 function popstate(event){

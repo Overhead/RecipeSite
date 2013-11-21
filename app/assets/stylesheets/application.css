@@ -16,3 +16,14 @@
 	margin-left:auto; margin-right:auto; width:60%;
 }
 
+
+
+.popover-title {
+  color: gray;
+  border-bottom: solid 1px black;
+  font-weight: bold;
+}
+
+.popover-content {
+  color: gray;
+}
