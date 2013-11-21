@@ -1,0 +1,38 @@
+<h1>User</h1>
+
+<table>
+	<tr>
+		<td>
+			name:
+		</td>
+		<td>
+			<%= @user.name %>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			id:
+		</td>
+		<td>
+			<%= @user.id %>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			provider:
+		</td>
+		<td>
+			<%= @user.provider %>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			uid:
+		</td>
+		<td>
+			<%= @user.uid %>
+		</td>
+	</tr>
+</table>
+
+<%= link_to "Back", user_index_path %>
