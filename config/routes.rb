@@ -7,6 +7,7 @@ RecipeSite::Application.routes.draw do
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
   
+  get "/login" => "user#login"
   get "/recipe/:id" => "recipe#show"
   get "/searchRecipe" => "search_recipes#search_recipes"
   get "/searchRecipe/:id" => "search_recipes#show"

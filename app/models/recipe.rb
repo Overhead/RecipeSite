@@ -30,6 +30,8 @@ class Recipe < ActiveRecord::Base
     if params[:max_minutes].to_i > 0
       apiSearchString += "&maxTotalTimeInSeconds="+(params[:max_minutes].to_i * 60).to_s
     end
+       
+    apiSearchString += "&maxResult=12&start=12"
     
     puts apiSearchString
     uri = URI.parse(apiAuthString+apiSearchString)
@@ -78,6 +80,26 @@ class Recipe < ActiveRecord::Base
     http = Net::HTTP.new(uri.host, uri.port)
     response = http.request(Net::HTTP::Get.new(uri.request_uri))
     parsed = JSON.parse(response.body)
+  end
+  
+  def self.splitIngredientLines(a)
+    units = [
+            'cup',
+            'cups',
+            'can',
+            'quart',
+            'gallon',
+            'pinch',
+            'pound',
+            'pint',
+            'fluid ounce',
+            'ounce' ]
+    joined_units = (units.collect{|u| u.pluralize} + units).join('|')
+    ingredientList = []
+    a.each do |ingred|
+      ingredientList.push(ingred.split(/([\d\/\.\s]+(\([^)]+\))?)\s(#{joined_units})?\s?(.*)/i))
+    end
+    return ingredientList
   end
 
 end
