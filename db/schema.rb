@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131121170706) do
+ActiveRecord::Schema.define(version: 20131126083933) do
 
   create_table "cuisines", force: true do |t|
     t.string   "name"
@@ -55,7 +55,10 @@ ActiveRecord::Schema.define(version: 20131121170706) do
     t.datetime "updated_at"
     t.float    "rating"
     t.integer  "totalTimeInSeconds"
+    t.integer  "users_id"
   end
+
+  add_index "recipes", ["users_id"], name: "index_recipes_on_users_id"
 
   create_table "user_recipe_favourites", force: true do |t|
     t.datetime "created_at"

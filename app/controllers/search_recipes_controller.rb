@@ -19,6 +19,7 @@ class SearchRecipesController < ApplicationController
   
   def show
     @recipe = Recipe.get_recipe_from_api(params[:id])
+    @ingredient = Recipe.splitIngredientLines(@recipe['ingredientLines'])
   end
     
 end

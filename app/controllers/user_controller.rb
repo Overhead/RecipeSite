@@ -6,6 +6,10 @@ class UserController < ApplicationController
 		respond_with(@user)
 	end
 
+  def login
+    #Empty controller method
+  end
+
 	def create	#POST /user
 		@user = User.new(user_params)
 
