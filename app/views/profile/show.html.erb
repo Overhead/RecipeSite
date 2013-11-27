@@ -1,0 +1,53 @@
+<% current_user && @user.uid == current_user.uid ? same_user = true : same_user = false %>
+<h1><% if same_user %> 
+	My Profile 
+	<%else%>
+	<%= @user.name %>
+	<%end%>
+</h1>
+
+<div class="profile-box">
+	<div class="user-picture">
+		<% if @user.picture %> 
+			<%= image_tag(@user.picture, :size => "170x170") %>
+		<%else%>
+			<%= image_tag("http://upload.wikimedia.org/wikipedia/commons/3/37/No_person.jpg",:size =>"100x100")%>
+		<%end%>
+	</div>
+	<div class="user-info">
+		<% if same_user %>
+			<%= form_for( @user, {
+            :url => {
+            	# method on controller
+              :action => "update" }, :remote => true
+
+              # or url with http verb
+							# :url => user_index_path,
+							# :method => 'patch'
+            }) do |f| %>
+            
+            
+           <% if @user.errors.any? %>
+			  <div id="error_explanation">
+			    <h2><%= pluralize(@user.errors.count, "error") %> prohibited this user from being saved:</h2>
+			    <ul>
+			    <% @user.errors.full_messages.each do |msg| %>
+			      <li><%= msg %></li>
+			    <% end %>
+			    </ul>
+			  </div>
+		  <% end %>
+            
+			<%= f.label :name %>
+			<%= f.text_field :first_name, :value => @user.given_name, :disabled => true %>
+			<%= f.text_field :last_name, :value => @user.family_name, :disabled => true %> <br />
+			<%= f.label :gender %>
+			<%= f.select :gender, [['Zombie'], ['Female','female'],['Male','male']], {}, {:disabled => true} %> <br />
+			<%= f.submit "Save", :id => "profile_save_button", :class=>"btn btn-success hidden", :data => {disable_with: "Submitting..."}%>
+			<%= button_tag "Cancel", type: :reset , :id => "profile_reset_button", :class => "btn btn-danger hidden"%>
+			<%end%>
+			<%= button_tag "Edit", :id => "profile_edit_button", :class => "btn btn-primary" %>
+		<%end%>
+	</div>
+</div> 
+<%= render :template => "recipe/index"%>
