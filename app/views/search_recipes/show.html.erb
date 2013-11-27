@@ -6,15 +6,22 @@
 <div class="recipe-info" style="display: inline-block; vertical-align: top;"> 
 	<ul>
 	<% @ingredient.each do |line| %>
-		 <!-- <li> <%= line %> </li> -->
-		<li>
-			<span class="amount"> <%= line[1] %>  </span> 
-			<span class="unit"> <%= line[2] %></span>
-			<span class="description"><%= line[0] %> <%= line[3] %> <%= line[4] if line.size > 3%></span> 
-		</li>
+		<!-- <li> <%= line %> </li> -->
+		<% if line.size > 3 %>
+			<li class="lang-us">
+				<span class="amount"><%= line[1] %></span> 
+				<span class="unit"><%= line[2] %></span>
+				<span class="description"><%= line[3] %></span> 
+			</li>
+		<% else %>
+			<li>
+				<span class="description"><%= line.reduce('') {|acc, current| acc + current + ' '}  %></span> 
+			</li>
+		<% end %>
 	<%end%>
 	</ul>	
-</div>
-<div >
-	<%= @recipe['totalTime']%>
+	<div >
+		<%= @recipe['totalTime']%>
+	</div>
+	<a href="#" id="translate">translate</a>
 </div>
