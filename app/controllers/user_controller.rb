@@ -10,6 +10,22 @@ class UserController < ApplicationController
     #Empty controller method
   end
 
+  def profile
+    #Empty controller method
+    if params[:id].blank? #use current_user if there is no id in url 
+      if current_user #If there is noone logged in, force login
+        @user = current_user
+      else
+        require_login
+      end
+    else #Find user profile if there is a id
+      @user = User.find(params[:id])
+    end
+    unless @user.blank? #Only find recipes if there is a user
+      @recipes = Recipe.where("users_id = ?", @user.id)
+    end
+  end
+
 	def create	#POST /user
 		@user = User.new(user_params)
 

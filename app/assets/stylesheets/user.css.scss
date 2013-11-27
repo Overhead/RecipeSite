@@ -1,3 +1,31 @@
 // Place all the styles related to the User controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+.profile-box {
+  margin: 10px;
+  display: inline-block;
+}
+
+.user-picture {
+  display: inline-block;
+}
+
+.user-info {
+  display: inline-block;
+  vertical-align: top;
+  font-weight: bolder;
+  font-size: 15px;
+  margin-left: 5px;
+  list-style-type: none;
+}
+
+.user-info ul {
+  margin-left: 5px;
+  list-style-type: none;
+}
+
+.user-info form {
+  margin: 0px;
+}
+
