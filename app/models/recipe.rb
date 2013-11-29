@@ -85,20 +85,17 @@ class Recipe < ActiveRecord::Base
   def self.splitIngredientLines(a)
     units = [
             'cup',
-            'cups',
-            'can',
             'quart',
             'gallon',
-            'pinch',
             'pound',
             'pint',
-            'fluid ounce',
             'ounce' ]
     joined_units = (units.collect{|u| u.pluralize} + units).join('|')
     ingredientList = []
     a.each do |ingred|
       ingredientList.push(ingred.split(/([\d\/\.\s]+(\([^)]+\))?)\s(#{joined_units})?\s?(.*)/i))
     end
+
     return ingredientList
   end
 
