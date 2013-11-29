@@ -18,5 +18,8 @@ this.profile_edit_off = () ->
   $("#profile_edit_button").removeClass "hidden"
   $("#profile_reset_button").addClass "hidden"
 
-$("#profile_edit_button").click profile_edit_on
-$("#profile_reset_button").click profile_edit_off
+listen = ->
+  $("#profile_edit_button").click profile_edit_on
+  $("#profile_reset_button").click profile_edit_off
+
+$(document).ready(listen)
