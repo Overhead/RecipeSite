@@ -83,8 +83,7 @@ toDecimal = (string) ->
     a + b
   ), 0
 
-# $(addLinkHandler)
-$ ->
+listen = ->
   link = $("#translate")
   link.on "click", (event) ->
     event.preventDefault()
@@ -99,4 +98,4 @@ $ ->
       amount.text converted.amount
       unit.text converted.unit
 
-
+$(document).ready(listen)
