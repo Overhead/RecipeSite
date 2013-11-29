@@ -8,11 +8,11 @@ class Recipe < ActiveRecord::Base
   require "net/http"
   require "uri"
   require 'json'
+
   
   def self.get_request_url(full_path, host_path)
     full_path.gsub("http://"+host_path, "")
   end
-  
   
   def self.get_recipes_from_api(params)
     
