@@ -1,3 +1,52 @@
 // Place all the styles related to the search_recipes controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+.search-label {font-size: 25px;}
+
+.checkboxes{ border: solid 2px; margin-bottom: 50px;}
+
+.search-table-image {width: 90px;}
+
+.search-box {
+  margin: 5px 10px;
+}
+
+.recipe-list-item-image {
+  float:left;
+  margin-left: 0px;
+}
+
+.recipe-list-item-info {
+   float: left;
+   margin-left: 2px;
+}
+
+.recipe-list-item-parent {
+  width: 200px;
+  background-color: cornflowerblue;
+  border: solid 4px darkseagreen;
+  margin-bottom: 10px;
+  color: whitesmoke;
+  font-weight: bold;
+}
+
+.flex-container-results {
+  /* We first create a flex layout context */
+  display: flex;
+  
+  /* Then we define the flow direction and if we allow the items to wrap 
+   * Remember this is the same as:
+   * flex-direction: row;
+   * flex-wrap: wrap;
+   */
+  flex-flow: row wrap;
+  
+  /* Then we define how is distributed the remaining space */
+  justify-content: space-around;
+}
+
+.recipe-box {
+  margin-bottom: 10px;
+}
+

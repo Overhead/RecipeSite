@@ -2,3 +2,11 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
+.inner-carousel-item {
+    text-align: center;
+    img {
+    margin: 0 auto;}}
+    
+#recipe-carousel {
+  width: 360px;
+}

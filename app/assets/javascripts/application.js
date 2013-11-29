@@ -13,5 +13,19 @@
 //= require jquery
 //= require jquery_ujs
 //= require twitter/bootstrap
-//= require turbolinks
 //= require_tree .
+
+window.addEventListener("popstate", popstate);
+
+function DoNav(theUrl) {       
+	 document.location.href = theUrl;
+	 //window.open(
+	 // theUrl
+	  //'_blank'//, // <- This is what makes it open in a new window.
+	  //"width=400,height=400"
+	//);
+}
+
+function popstate(event){
+	document.getElementById('recipe-result-body').innerHTML = localStorage.getItem(event.state.search_url); 
+}

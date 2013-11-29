@@ -1,13 +1,22 @@
-<h1>Recipe#index</h1>
-<p>Find me in app/views/recipe/index.html.erb</p>
+<h3> 
+	<% if @recipes.count != 1%> 
+		<%= @recipes.count %> recipes
+	<%else%>
+	<%= @recipes.count %> recipe
+	<%end%>
+</h3>
 
-<% if current_user %>
-	Welcome
-	uid: <%= current_user.uid %>
-	<br>
-	id: <%= current_user.id %>!
-	<br>
-  <%= link_to "Sign Out", signout_path %>
-<% else %>
-  <%= link_to "Sign in with Google", "/auth/gplus" %>
-<% end %>
+<table class="table table-hover">
+	<thead>
+		<tr>
+			<th>Name</th>
+		</tr>
+	</thead>
+	<tbody>
+		<% @recipes.all.each do |rec| %>
+		<tr>
+			<td> <%= rec.recipeName %></td>
+		</tr>
+		<%end%>
+	</tbody>
+</table>

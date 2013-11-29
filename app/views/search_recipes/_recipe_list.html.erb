@@ -1,8 +1,35 @@
-<% if @recipeResult %>
-	<% @recipeResult.each do |rb| %>
-	<tr>        
-    	<td> <%= rb['recipeName'] %> </td>
-    	<td> <%= rb['ingredients'].length %> </td>
-    </tr>
+<div class="row-fluid" id="recipe-result-body">
+	<% if @recipeResult %>
+	<div id="request-url" style="display: none;"> <%= @requesturl %> </div>
+	
+    <div class="flex-container-results">
+    <% @recipeResult['matches'].each do |rb| %>
+    <div class="recipe-list-item-parent" onmouseover="this.style.cursor='pointer'"
+                        onclick="DoNav('<%= search_recipe_path(rb['id'])%>')">
+    	<div>
+    		<%= rb['recipeName'] %>
+    	</div>
+		<div class="recipe-list-item-image">
+			<%= image_tag rb['smallImageUrls'].first%> </br>
+		</div>
+		<div class="recipe-list-item-info">
+			<i class="icon-time"></i> <%= (rb['totalTimeInSeconds'].to_i / 60).to_s %> Minutes </br>
+			<i class="icon-star"></i> <%= rb['rating'].to_f %> / 6.0 </br>
+			<a class="ingredients-link btn btn-warning btn-small disabled" title="Ingredients"><%= rb['ingredients'].length %> Ingredients
+                <div class="ingredients-well" style="display: none;">        
+                        <ul>
+                                <% rb['ingredients'].each do |ingred| %>
+                                <li>
+                                        <%= ingred %>
+                                </li>
+                                <%end%>
+                        </ul>
+                </div> 
+            </a>
+		</div>
+	</div>
 	<%end%>
-<%end%>
+	<%= javascript_include_tag "search_recipes" %> 
+	</div>
+	<%end%>
+</div>
