@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131126083933) do
+ActiveRecord::Schema.define(version: 20131129141335) do
 
   create_table "cuisines", force: true do |t|
     t.string   "name"
@@ -36,6 +36,15 @@ ActiveRecord::Schema.define(version: 20131126083933) do
   add_index "recipe_cuisines", ["cuisine_id"], name: "index_recipe_cuisines_on_cuisine_id"
   add_index "recipe_cuisines", ["recipe_id"], name: "index_recipe_cuisines_on_recipe_id"
 
+  create_table "recipe_images", force: true do |t|
+    t.text     "image_url"
+    t.integer  "recipe_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "recipe_images", ["recipe_id"], name: "index_recipe_images_on_recipe_id"
+
   create_table "recipe_ingredients", force: true do |t|
     t.float    "amount"
     t.string   "unit"
@@ -56,6 +65,7 @@ ActiveRecord::Schema.define(version: 20131126083933) do
     t.float    "rating"
     t.integer  "totalTimeInSeconds"
     t.integer  "users_id"
+    t.text     "yummly_id"
   end
 
   add_index "recipes", ["users_id"], name: "index_recipes_on_users_id"
