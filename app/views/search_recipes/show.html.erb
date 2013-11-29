@@ -1,27 +1,28 @@
 <h1> <%= @recipe['name'] %> </h1>
-
-<div class="recipe-image" style="display: inline-block;vertical-align: middle;"> 
-	<%= image_tag @recipe['images'].last['hostedLargeUrl'] %> 
-</div>
-<div class="recipe-info" style="display: inline-block; vertical-align: top;"> 
-	<ul>
-	<% @ingredient.each do |line| %>
-		<!-- <li> <%= line %> </li> -->
-		<% if line.size > 3 %>
-			<li class="lang-us">
-				<span class="amount"><%= line[1] %></span> 
-				<span class="unit"><%= line[2] %></span>
-				<span class="description"><%= line[3] %></span> 
-			</li>
-		<% else %>
-			<li>
-				<span class="description"><%= line.reduce('') {|acc, current| acc + current + ' '}  %></span> 
-			</li>
-		<% end %>
-	<%end%>
-	</ul>	
-	<div >
-		<%= @recipe['totalTime']%>
+<div class="recipe-box">
+	<div class="recipe-image" style="display: inline-block;vertical-align: middle;"> 
+		<%= image_tag @recipe['images'].last['hostedLargeUrl'] %> 
 	</div>
-	<a href="#" id="translate">translate</a>
+	<div class="recipe-info" style="display: inline-block; vertical-align: top;"> 
+		<ul>
+		<% @ingredient.each do |line| %>
+			<!-- <li> <%= line %> </li> -->
+			<% if line.size > 3 %>
+				<li class="lang-us">
+					<span class="amount"><%= line[1] %></span> 
+					<span class="unit"><%= line[2] %></span>
+					<span class="description"><%= line[3] %></span> 
+				</li>
+			<% else %>
+				<li>
+					<span class="description"><%= line.reduce('') {|acc, current| acc + current + ' '}  %></span> 
+				</li>
+			<% end %>
+		<%end%>
+		<a href="#" id="translate" class="btn btn-info">Translate Ingredients</a>
+		</ul>	
+		<div >
+			<%= @recipe['totalTime']%>
+		</div>
+	</div>
 </div>
