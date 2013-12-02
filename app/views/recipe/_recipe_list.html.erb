@@ -5,7 +5,7 @@
     <div class="flex-container-results">
     <% @recipeResult['matches'].each do |rb| %>
     <div class="recipe-list-item-parent" onmouseover="this.style.cursor='pointer'"
-                        onclick="DoNav('<%= search_recipe_path(rb['id'])%>')">
+                        onclick="DoNav('<%= recipe_path(rb['id'])%>')">
     	<div>
     		<%= rb['recipeName'] %>
     	</div>
@@ -28,8 +28,7 @@
             </a>
 		</div>
 	</div>
-	<%end%>
-	<%= javascript_include_tag "search_recipes" %> 
+	<%end%> 
 	</div>
 	<%end%>
 </div>

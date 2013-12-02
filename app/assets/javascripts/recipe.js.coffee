@@ -83,7 +83,15 @@ toDecimal = (string) ->
     a + b
   ), 0
 
-listen = ->
+this.listenToRecipe = ->   
+  $(".ingredients-link").each ->
+    $this = $(this)
+    $this.popover
+      html: true
+      trigger: "hover"
+      placement: "right"
+      content: $this.find(".ingredients-well").html()
+
   link = $("#translate")
   link.on "click", (event) ->
     event.preventDefault()
@@ -98,4 +106,6 @@ listen = ->
       amount.text converted.amount
       unit.text converted.unit
 
-$(document).ready(listen)
+$(document).ready(this.listenToRecipe)
+
+
