@@ -1,0 +1,12 @@
+var fav = $('#fav-recipe-form')
+var unfav = $('#unfav-recipe-form')
+
+if(fav.hasClass('hidden'))
+{
+	fav.removeClass('hidden')
+	unfav.addClass('hidden')	
+}
+else {
+	fav.addClass('hidden')
+	unfav.removeClass('hidden')
+}

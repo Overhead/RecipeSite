@@ -1,8 +1,6 @@
 class Recipe < ActiveRecord::Base
   has_many :recipe_ingredients
   has_many :ingredients, :through => :recipe_ingredients
-  has_many :users, :through => :user_recipe_history
-  has_many :users, :through => :user_recipe_favourites
   
   
   require "net/http"
@@ -140,6 +138,12 @@ class Recipe < ActiveRecord::Base
                                 "name" => rec.ingredient.title })
       }
       return recipeHash
+    end
+    
+    def self.create_yummly_recipe(params, current_user)  
+      puts "Heia"
+      #newRec = Recipe.create(:recipeName => params[:recipe_name], :yummly_id => params[:recipe_id])
+      #UserRecipeFavourite.create(:user_id => current_user.id, :recipe_id => newRec.id)
     end
 
 end

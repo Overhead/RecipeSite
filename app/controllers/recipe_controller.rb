@@ -28,24 +28,28 @@ class RecipeController < ApplicationController
      else
        @dbRecipe = Recipe.find(params[:id])
        @recipe = Recipe.get_recipe_hash(@dbRecipe)
-    end 
+    end
     respond_with(@recipe)
   end
   
   def fav_recipe
     if Recipe.where("id = ?", params[:id]).blank?
       if Recipe.where("yummly_id = ?", params[:id]).blank?
+        Recipe.create_yummly_recipe(params, current_user)
+        respond_to do |format|
+          format.js
+        end
         #create yummly recipe, and recipe fav connection to user
       else
         #create only recipe fav connection to user
       end
-    else
-      
     end
   end
   
   def unfav_recipe
-    
+    respond_to do |format|
+          format.js
+    end
   end
   
 end
