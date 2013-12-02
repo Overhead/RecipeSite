@@ -80,9 +80,39 @@ class Recipe < ActiveRecord::Base
     http = Net::HTTP.new(uri.host, uri.port)
     response = http.request(Net::HTTP::Get.new(uri.request_uri))
     parsed = JSON.parse(response.body)
+    
+    recipeHash = {
+        "id" => parsed['id'], 
+        "recipeName" => parsed['name'],
+        "rating" => parsed['rating'],
+        "totalTimeInSeconds" => parsed['totalTimeInSeconds'],
+        "images" => [parsed['images'][0]['hostedLargeUrl']],
+        "ingredients" => []
+      }
+      parsed['ingredientLines'].each { |line| 
+          line_list = splitIngredientLine(line)
+          ingredient_hash = {}
+          if line_list.size > 3
+            ingredient_hash = { 
+                            "amount" => line_list[1], 
+                            "unit" => line_list[2],
+                            "name" => line_list[3]
+                             }
+          else
+             ingredient_hash = { 
+                          "amount" => line_list[1], 
+                          "unit" => nil,
+                          "name" => line_list[2]
+                           }
+          end
+          recipeHash['ingredients'].push(ingredient_hash)
+      }
+      puts recipeHash['images']
+      return recipeHash
+    
   end
   
-  def self.splitIngredientLines(a)
+  def self.splitIngredientLine(line)
     units = [
             'cup',
             'quart',
@@ -91,12 +121,25 @@ class Recipe < ActiveRecord::Base
             'pint',
             'ounce' ]
     joined_units = (units.collect{|u| u.pluralize} + units).join('|')
-    ingredientList = []
-    a.each do |ingred|
-      ingredientList.push(ingred.split(/([\d\/\.\s]+(\([^)]+\))?)\s(#{joined_units})?\s?(.*)/i))
-    end
-
-    return ingredientList
+    ingredientList  = line.split(/([\d\/\.\s]+(\([^)]+\))?)\s(#{joined_units})?\s?(.*)/i)
   end
+  
+  def self.get_recipe_hash(recipe)
+      recipeHash = {
+        "id" => recipe.id, 
+        "recipeName" => recipe.recipeName,
+        "rating" => recipe.rating,
+        "totalTimeInSeconds" => recipe.totalTimeInSeconds,
+        "images" => [],
+        "ingredients" => []
+      }
+      recipe.recipe_ingredients.each { |rec| 
+          recipeHash['ingredients'].push({ 
+                                "amount" => rec.amount, 
+                                "unit" => rec.unit,
+                                "name" => rec.ingredient.title })
+      }
+      return recipeHash
+    end
 
 end

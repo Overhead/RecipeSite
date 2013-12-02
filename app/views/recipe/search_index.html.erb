@@ -1,6 +1,6 @@
 	<div class="search-box">
 	<%= label_tag "Search for recipe", nil, :class => 'search-label'%>
-	<%= form_tag("/searchRecipe", :class=>'form-inline', :id => 'search-form', :remote => true, :method => :get) do %>
+	<%= form_tag("/recipe/search", :class=>'form-inline', :id => 'search-form', :remote => true, :method => :get) do %>
 		 <%= text_field_tag	'search_text' , nil,  :placeholder => 'Ex: Onion Soup; Onion, Milk, ....', :name => 'search_string', :class => 'input-xxlarge' %>
 		 <%= button_tag "Search", :class => 'btn btn-primary', :name => nil %>
 		 
@@ -30,4 +30,4 @@
 		 </div>
 	<% end %> <!-- form_tag end--> 
 </div>
-<%= render :partial => "search_recipes/recipe_list" %>
+<%= render :partial => "recipe/recipe_list" %>

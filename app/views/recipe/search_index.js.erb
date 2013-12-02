@@ -1,5 +1,6 @@
 $("#recipe-result-body").empty();
-$("<%= escape_javascript(render :partial => "search_recipes/recipe_list") %>").appendTo("#recipe-result-body");
+$("<%= escape_javascript(render :partial => "recipe/recipe_list") %>").appendTo("#recipe-result-body");
+window.listenToRecipe()
 var url = document.getElementById('request-url').innerHTML
 localStorage.setItem(url, document.getElementById('recipe-result-body').innerHTML)
 history.pushState({search_url: url}, "Search Result", url)
