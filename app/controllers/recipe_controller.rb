@@ -23,32 +23,21 @@ class RecipeController < ApplicationController
   end
   
   def show
-    if Recipe.where("id = ?", params[:id]).blank?
-       @recipe = Recipe.get_recipe_from_api(params[:id])
-     else
-       @dbRecipe = Recipe.find(params[:id])
-       @recipe = Recipe.get_recipe_hash(@dbRecipe)
-    end
-    respond_with(@recipe)
-  end
-  
-  def fav_recipe
-    if Recipe.where("id = ?", params[:id]).blank?
-      if Recipe.where("yummly_id = ?", params[:id]).blank?
-        Recipe.create_yummly_recipe(params, current_user)
-        respond_to do |format|
-          format.js
-        end
-        #create yummly recipe, and recipe fav connection to user
-      else
-        #create only recipe fav connection to user
+    begin
+      if Recipe.where("id = ?", params[:id]).blank?
+         @recipe = Recipe.get_recipe_from_api(params[:id])
+       else
+         @dbRecipe = Recipe.find(params[:id])
+         @recipe = Recipe.get_recipe_hash(@dbRecipe)
       end
-    end
-  end
-  
-  def unfav_recipe
-    respond_to do |format|
-          format.js
+      
+      if current_user
+        @is_favorite = Favorite.check_if_favorite(@recipe['id'], current_user)
+      end
+      
+      respond_with(@recipe)
+    rescue
+      render :template => "errors/not_found"
     end
   end
   

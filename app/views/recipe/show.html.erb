@@ -4,37 +4,53 @@
 	</div>
 	<div class="recipe-info">
 		<h2> <%= @recipe['recipeName'] %> </h2>
-		<i class="icon-time"></i><span ><%= @recipe['totalTimeInSeconds']%> </span> </br> <i class="fa fa-star"></i><span> <%= @recipe['rating'].to_f %> / 6.0 </span> </br>
-		<div id="fav-recipe-form">
-			<%= form_tag "#{@recipe['id']}/fav", :remote => true %>
-			<%= button_tag(raw("<i class=\"fa fa-thumbs-o-up\"> Favourize</i>"), :name => nil, :class => "btn btn-warning")%>
-			<%= text_field_tag "", nil, :name => "recipe_id", :value => @recipe['id'], :class => "hidden" %>
-			<%= text_field_tag "", nil, :name => "recipe_name", :value => @recipe['recipeName'], :class => "hidden" %>
-		</div>
-		<div id="unfav-recipe-form" class="hidden">
-			<%= form_tag "#{@recipe['id']}/unfav", :remote => true %>
-			<%= button_tag(raw("<i class=\"fa fa-thumbs-o-down\"> Un-Favourize</i>"),:name => nil,  :class => "btn btn-warning")%>
-			<%= text_field_tag "", nil, :name => "recipe_id", :value => @recipe['id'], :class => "hidden" %>
-		</div>
+		<i class="icon-time"></i><span > <%= distance_of_time_in_words(@recipe['totalTimeInSeconds'].to_f) %> (<%= (@recipe['totalTimeInSeconds'].to_f / 60).to_s %> Minutes) </span> </br> 
+		<i class="fa fa-star"></i><span> <%= @recipe['rating'].to_f %> / 6.0 </span> </br>
+		<% if current_user %>
+			<div id="fav-recipe-form" class="<%= @is_favorite ? "hidden" : "" %>">
+				<%= form_tag("#{@recipe['id']}/fav", :remote => true) do %>
+				<%= button_tag(raw("<i class=\"fa fa-thumbs-o-up\"> Favorise</i>"), :name => nil, :class => "btn btn-warning")%>
+				<%= hidden_field_tag "", nil, :name => "recipe_name", :value => @recipe['recipeName'] %>
+				<% end %>
+			</div>
+			<div id="unfav-recipe-form" class="<%= @is_favorite ? "" : "hidden" %>">
+				<%= form_tag("#{@recipe['id']}/unfav", :remote => true) do %>
+				<%= button_tag(raw("<i class=\"fa fa-thumbs-o-down\"> Un-Favorise</i>"),:name => nil,  :class => "btn btn-warning")%>
+				<% end %>
+			</div>
+		<%end%>
 	</div>
 	<div class="recipe-description">
-		<ul>
-			<% @recipe['ingredients'].each do |line| %>
-			<% if line['unit'] != nil %>
-			<li class="lang-us">
-				<span class="amount"><%= line['amount'] %></span>
-				<span class="unit"><%= line['unit'] %></span>
-				<span class="description"><%= line['name'] %></span>
-			</li>
-			<% else %>
-			<li>
-				<span class="amount"><%= line['amount'] %></span>
-				<span class="description"> <%= line['name'] %></span>
-			</li>
-			<% end %>
+		<div class="recipe-ingredients">
+		<%= field_set_tag  "Ingredients", :class => "fieldset_title" do %>
+		<%= link_to("Translate Ingredients", "#", :id=>"translate", :class=> "btn btn-info")%>
+			<ul>
+				<% @recipe['ingredients'].each do |line| %>
+					<% if line['unit'] != nil %>
+					<li class="lang-us">
+						<span class="amount"><%= line['amount'] %></span>
+						<span class="unit"><%= line['unit'] %></span>
+						<span class="description"><%= line['name'] %></span>
+					</li>
+					<% else %>
+					<li>
+						<span class="amount"><%= line['amount'] %></span>
+						<span class="description"> <%= line['name'] %></span>
+					</li>
+					<% end %>
+				<%end%>
+			</ul>
+		<%end%>
+		</div>
+		<div class="description-text">
+			<%= field_set_tag  "Descriptions", :class => "fieldset_title" do %>
+				<% if @recipe['source'] == "db" %>
+					<%= @recipe['description'] %>
+				<%else%>
+					<%= button_to "Read description online", @recipe['description'], :class => "btn btn-info"%>
+				<%end%>
 			<%end%>
-			<a href="#" id="translate" class="btn btn-info">Translate Ingredients</a>
-		</ul>
+		</div>
 	</div>
 </div>
 

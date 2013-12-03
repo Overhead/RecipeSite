@@ -1,5 +1,5 @@
 class Recipe < ActiveRecord::Base
-  has_many :recipe_ingredients
+  has_many :recipe_ingredients, :dependent => :destroy
   has_many :ingredients, :through => :recipe_ingredients
   
   
@@ -85,7 +85,9 @@ class Recipe < ActiveRecord::Base
         "rating" => parsed['rating'],
         "totalTimeInSeconds" => parsed['totalTimeInSeconds'],
         "images" => [parsed['images'][0]['hostedLargeUrl']],
-        "ingredients" => []
+        "ingredients" => [],
+        "source" => "yummly",
+        "description" => parsed['source']['sourceRecipeUrl']
       }
       parsed['ingredientLines'].each { |line| 
           line_list = splitIngredientLine(line)
@@ -129,7 +131,9 @@ class Recipe < ActiveRecord::Base
         "rating" => recipe.rating,
         "totalTimeInSeconds" => recipe.totalTimeInSeconds,
         "images" => [],
-        "ingredients" => []
+        "ingredients" => [],
+        "source" => "db",
+        "description" => recipe.description
       }
       recipe.recipe_ingredients.each { |rec| 
           recipeHash['ingredients'].push({ 
@@ -139,11 +143,5 @@ class Recipe < ActiveRecord::Base
       }
       return recipeHash
     end
-    
-    def self.create_yummly_recipe(params, current_user)  
-      puts "Heia"
-      #newRec = Recipe.create(:recipeName => params[:recipe_name], :yummly_id => params[:recipe_id])
-      #UserRecipeFavourite.create(:user_id => current_user.id, :recipe_id => newRec.id)
-    end
-
+     
 end
