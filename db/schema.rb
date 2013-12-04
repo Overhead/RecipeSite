@@ -11,10 +11,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131129141335) do
+ActiveRecord::Schema.define(version: 20131202175756) do
 
   create_table "cuisines", force: true do |t|
     t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "favorites", force: true do |t|
+    t.text     "name"
+    t.text     "source_id"
+    t.text     "source"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -70,26 +78,15 @@ ActiveRecord::Schema.define(version: 20131129141335) do
 
   add_index "recipes", ["users_id"], name: "index_recipes_on_users_id"
 
-  create_table "user_recipe_favourites", force: true do |t|
+  create_table "user_favorites", force: true do |t|
+    t.integer  "user_id"
+    t.integer  "favorite_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "user_id"
-    t.integer  "recipe_id"
   end
 
-  add_index "user_recipe_favourites", ["recipe_id"], name: "index_user_recipe_favourites_on_recipe_id"
-  add_index "user_recipe_favourites", ["user_id"], name: "index_user_recipe_favourites_on_user_id"
-
-  create_table "user_recipe_histories", force: true do |t|
-    t.datetime "date"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.integer  "user_id"
-    t.integer  "recipe_id"
-  end
-
-  add_index "user_recipe_histories", ["recipe_id"], name: "index_user_recipe_histories_on_recipe_id"
-  add_index "user_recipe_histories", ["user_id"], name: "index_user_recipe_histories_on_user_id"
+  add_index "user_favorites", ["favorite_id"], name: "index_user_favorites_on_favorite_id"
+  add_index "user_favorites", ["user_id"], name: "index_user_favorites_on_user_id"
 
   create_table "users", force: true do |t|
     t.string   "name"

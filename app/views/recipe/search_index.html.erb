@@ -9,13 +9,13 @@
 		    <div class="accordion-group" style="border: 0px;">
 		        <div class="collapse indent" id="search_settings">     						
 					<div class="recipe-max-minutes">
-						<%= field_set_tag  "Max minutes" do %>
+						<%= field_set_tag  "Max minutes",:class => "fieldset_title" do %>
 							<%= number_field_tag 'minutes_text' , nil, in: 0...1001, :placeholder => 'Type in max minutes', :name => 'max_minutes', :class => 'input-large' %>
 						<%end%>
 					</div>	     
 		        	<div class="control-group">
 		        		<div class="controls">
-		        			<%= field_set_tag  "Choose Cuisines" do %>		
+		        			<%= field_set_tag  "Choose Cuisines",:class => "fieldset_title" do %>		
 				        		<% @cuisineList.each do |cuisine| %>
 				        			<label class="checkbox">
 						        		<%= check_box_tag 'checked_cuisines[cuisine_'+cuisine+']', cuisine, false  %>
@@ -30,4 +30,6 @@
 		 </div>
 	<% end %> <!-- form_tag end--> 
 </div>
+<div id="cur-recipe-page" data-current-page="1"></div>
+<%= link_to "Next Page", recipe_search_path(:new_page => ""), :remote => true, :hidden => true, :id => "change-page-link"%>
 <%= render :partial => "recipe/recipe_list" %>

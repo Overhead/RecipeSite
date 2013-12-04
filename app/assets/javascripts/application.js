@@ -29,3 +29,6 @@ function DoNav(theUrl) {
 function popstate(event){
 	document.getElementById('recipe-result-body').innerHTML = localStorage.getItem(event.state.search_url); 
 }
+
+
+

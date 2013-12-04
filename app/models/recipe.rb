@@ -1,8 +1,6 @@
 class Recipe < ActiveRecord::Base
-  has_many :recipe_ingredients
+  has_many :recipe_ingredients, :dependent => :destroy
   has_many :ingredients, :through => :recipe_ingredients
-  has_many :users, :through => :user_recipe_history
-  has_many :users, :through => :user_recipe_favourites
   
   
   require "net/http"
@@ -30,8 +28,10 @@ class Recipe < ActiveRecord::Base
     if params[:max_minutes].to_i > 0
       apiSearchString += "&maxTotalTimeInSeconds="+(params[:max_minutes].to_i * 60).to_s
     end
-       
-    apiSearchString += "&maxResult=12&start=12"
+    
+    #Smart if/else sentence, if it has params set start to that value, else start on 0   
+    apiSearchString += params[:new_page] ? "&maxResult=12&start="+params[:new_page] : "&maxResult=12&start=0"
+    
     
     puts apiSearchString
     uri = URI.parse(apiAuthString+apiSearchString)
@@ -87,7 +87,9 @@ class Recipe < ActiveRecord::Base
         "rating" => parsed['rating'],
         "totalTimeInSeconds" => parsed['totalTimeInSeconds'],
         "images" => [parsed['images'][0]['hostedLargeUrl']],
-        "ingredients" => []
+        "ingredients" => [],
+        "source" => "yummly",
+        "description" => parsed['source']['sourceRecipeUrl']
       }
       parsed['ingredientLines'].each { |line| 
           line_list = splitIngredientLine(line)
@@ -131,7 +133,9 @@ class Recipe < ActiveRecord::Base
         "rating" => recipe.rating,
         "totalTimeInSeconds" => recipe.totalTimeInSeconds,
         "images" => [],
-        "ingredients" => []
+        "ingredients" => [],
+        "source" => "db",
+        "description" => recipe.description
       }
       recipe.recipe_ingredients.each { |rec| 
           recipeHash['ingredients'].push({ 
@@ -141,5 +145,5 @@ class Recipe < ActiveRecord::Base
       }
       return recipeHash
     end
-
+     
 end

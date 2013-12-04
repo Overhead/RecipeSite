@@ -1,9 +1,9 @@
 RecipeSite::Application.routes.draw do
   
-  
   get "/recipe/search" => "recipe#search_index"
-  resources :recipe
+  resources :recipe, :except => [:index]
   resources :user
+  resources :favorite
   
   get "/profile" => "profile#show"
   resources :profile
@@ -14,13 +14,13 @@ RecipeSite::Application.routes.draw do
   get "/login" => "user#login"
   get "/profile/update" => "profile#update"
   get "/profile/:id" => "user#profile"
-  post "/recipe/:id/fav" => "recipe#fav_recipe"
-  post "/recipe/:id/unfav" => "recipe#unfav_recipe"
+  post "/recipe/:id/fav" => "favorite#fav_recipe"
+  post "/recipe/:id/unfav" => "favorite#unfav_recipe"
+
   
   # You can have the root of your site routed with "root"
   root 'recipe#search_index'
-
-
+  
   # Auth callback route
   get "/auth/:provider/callback", to: "sessions#create"
   get "/signout" => "sessions#destroy", :as => :signout

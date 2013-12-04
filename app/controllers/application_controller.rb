@@ -16,5 +16,5 @@ class ApplicationController < ActionController::Base
     session[:return_to] = request.fullpath
     redirect_to "/login"
   end
-
+    
 end

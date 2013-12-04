@@ -1,22 +1,20 @@
-<h3> 
-	<% if @recipes.count != 1%> 
-		<%= @recipes.count %> recipes
-	<%else%>
-	<%= @recipes.count %> recipe
-	<%end%>
-</h3>
-
-<table class="table table-hover">
-	<thead>
-		<tr>
-			<th>Name</th>
-		</tr>
-	</thead>
-	<tbody>
-		<% @recipes.all.each do |rec| %>
-		<tr>
-			<td> <%= rec.recipeName %></td>
-		</tr>
-		<%end%>
-	</tbody>
-</table>
+<% if @recipes.blank?%> 
+	<h4> No recipes <i class="fa fa-frown-o"></i> </h4>
+<%else%>
+	<h4><%= @recipes.count %> <%= @recipes.count == 1 ? "Recipe" : "Recipes"%> </h4>
+	<table class="table table-hover">
+		<thead>
+			<tr>
+				<th>Name</th>
+			</tr>
+		</thead>
+		<tbody>
+			<% @recipes.all.each do |rec| %>
+			<tr onmouseover="this.style.cursor='pointer'"
+                        onclick="DoNav('<%= recipe_path(rec.id)%>')">
+				<td> <%= rec.recipeName %></td>
+			</tr>
+			<%end%>
+		</tbody>
+	</table>
+<%end%>

@@ -13,6 +13,11 @@
  *= require_tree .
  */
 
+
+.fieldset_title legend {
+	margin-bottom: 0;
+}
+
 .login-box {
 	background: rgba(255, 255, 255, 0.8);
 	border: 2px solid;
