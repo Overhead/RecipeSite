@@ -30,4 +30,6 @@
 		 </div>
 	<% end %> <!-- form_tag end--> 
 </div>
+<div id="cur-recipe-page" data-current-page="1"></div>
+<%= link_to "Next Page", recipe_search_path(:new_page => ""), :remote => true, :hidden => true, :id => "change-page-link"%>
 <%= render :partial => "recipe/recipe_list" %>

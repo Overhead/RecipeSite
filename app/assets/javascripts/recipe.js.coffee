@@ -83,7 +83,21 @@ toDecimal = (string) ->
     a + b
   ), 0
 
-this.listenToRecipe = ->   
+this.listenToRecipe = ->
+  getOptions = ->
+    resultBody = $('#cur-recipe-page')
+    a = $('#recipe-pagination').attr("data-page-number")
+    curpage = resultBody.attr('data-current-page')
+    pages = Math.floor(a / 12) + ((if a % 12 isnt 0 then 1 else 0))
+    currentPage: curpage
+    totalPages: pages
+    alignment: 'center'
+    onPageClicked: (e, originalEvent, type, page) ->
+      $("#change-page-link").attr "href", "/recipe/search?new_page=" + (page - 1) * 12
+      resultBody.attr "data-current-page", ""+page
+      $("#change-page-link").trigger "click"
+  $("#recipe-pagination").bootstrapPaginator getOptions()
+    
   $(".ingredients-link").each ->
     $this = $(this)
     $this.popover

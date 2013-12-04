@@ -11,9 +11,25 @@ class RecipeController < ApplicationController
   
   def search_index
     @cuisineList = ['American', 'Italian', 'Asian', 'Mexican', 'French', 'Southwestern', 'Barbecue', 'Indian', 'Chinese', 'English', 'Mediterranean', 'Greek', 'Spanish', 'German', 'Thai', 'Moroccan', 'Irish', 'Japanese', 'Cuban', 'Hawaiin', 'Swedish', 'Hungarian', 'Portugese']
+    
+    if params[:new_page]
+      @startat = params[:new_page]
+      params.merge!(session[:search_params])
+      params[:new_page] = @startat
+    end
+    
     unless params[:search_string].blank?
-      @requesturl = Recipe.get_request_url(request.url,request.env['HTTP_HOST'])
+      if params[:new_page].blank?
+        @requesturl = Recipe.get_request_url(request.url,request.env['HTTP_HOST'])
+      else
+        @requesturl = session[:search_url]
+        session[:search_url] = nil
+      end
+      
       @recipeResult = Recipe.get_recipes_from_api(params)
+      puts @recipeResult['totalMatchCount']
+      session[:search_params] = params
+      session[:search_url] = @requesturl
       respond_to do |format|
       format.html { }
         format.js   {}

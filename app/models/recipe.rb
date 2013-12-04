@@ -28,8 +28,10 @@ class Recipe < ActiveRecord::Base
     if params[:max_minutes].to_i > 0
       apiSearchString += "&maxTotalTimeInSeconds="+(params[:max_minutes].to_i * 60).to_s
     end
-       
-    apiSearchString += "&maxResult=12&start=12"
+    
+    #Smart if/else sentence, if it has params set start to that value, else start on 0   
+    apiSearchString += params[:new_page] ? "&maxResult=12&start="+params[:new_page] : "&maxResult=12&start=0"
+    
     
     puts apiSearchString
     uri = URI.parse(apiAuthString+apiSearchString)
