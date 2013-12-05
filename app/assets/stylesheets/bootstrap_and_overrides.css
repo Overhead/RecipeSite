@@ -50,3 +50,15 @@
 	-moz-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.065);
 	box-shadow: 0 1px 4px rgba(0, 0, 0, 0.065);
 }
+
+.pagination {
+	margin: 0px 0px 9px 0px;
+}
+
+.nav-tabs>.active>a, .nav-tabs>.active>a:hover, .nav-tabs>.active>a:focus {
+	color: #555555;
+	background: rgba(255, 255, 255, 0.8);
+	border: 1px solid #ddd;
+	border-bottom-color: transparent;
+	cursor: default;
+}

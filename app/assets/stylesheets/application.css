@@ -41,6 +41,7 @@
 
 .main-background {
 	background-size: cover;
+	background-repeat:no-repeat;
 	background-image:url('http://www.ngewall.com/images/2013/07/food-art-landscape-hd-desktop-wallpaper-high-definition.jpg')
 }
 
@@ -59,3 +60,4 @@
 .popover-content {
   color: gray;
 }
+

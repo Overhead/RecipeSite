@@ -103,7 +103,7 @@ this.listenToRecipe = ->
     $this.popover
       html: true
       trigger: "hover"
-      placement: "right"
+      placement: "top"
       content: $this.find(".ingredients-well").html()
 
   link = $("#translate")

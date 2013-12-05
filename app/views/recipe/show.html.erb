@@ -1,6 +1,6 @@
 <div class="recipe-box">
 	<div class="recipe-image">
-		<%= image_tag @recipe['images'].first %> 
+		<%= image_tag @recipe['images'].first, :size => "360x240" %> 
 	</div>
 	<div class="recipe-info">
 		<h2> <%= @recipe['recipeName'] %> </h2>
@@ -23,7 +23,9 @@
 	<div class="recipe-description">
 		<div class="recipe-ingredients">
 		<%= field_set_tag  "Ingredients", :class => "fieldset_title" do %>
-		<%= link_to("Translate Ingredients", "#", :id=>"translate", :class=> "btn btn-info")%>
+		<% if @recipe['source'] != "db" %>
+			<%= link_to("Translate Ingredients", "#", :id=>"translate", :class=> "btn btn-info")%>
+		<%end%>
 			<ul>
 				<% @recipe['ingredients'].each do |line| %>
 					<% if line['unit'] != nil %>

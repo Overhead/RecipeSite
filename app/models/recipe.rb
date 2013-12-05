@@ -1,7 +1,7 @@
 class Recipe < ActiveRecord::Base
   has_many :recipe_ingredients, :dependent => :destroy
   has_many :ingredients, :through => :recipe_ingredients
-  
+  has_many :recipe_images, :dependent => :destroy
   
   require "net/http"
   require "uri"
@@ -137,12 +137,19 @@ class Recipe < ActiveRecord::Base
         "source" => "db",
         "description" => recipe.description
       }
+      
+      #Add all the ingredients to the hash
       recipe.recipe_ingredients.each { |rec| 
           recipeHash['ingredients'].push({ 
                                 "amount" => rec.amount, 
                                 "unit" => rec.unit,
                                 "name" => rec.ingredient.title })
       }
+      #Add all the images to the hash
+      recipe.recipe_images.each { |img| 
+          recipeHash['images'].push(img.image_url)
+        }
+      
       return recipeHash
     end
      

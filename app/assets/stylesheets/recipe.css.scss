@@ -11,7 +11,9 @@
   width: 360px;
 }
 
-.search-label {font-size: 25px;}
+.search-label {
+  font-size: 25px;
+}
 
 .checkboxes{ border: solid 2px; margin-bottom: 50px;}
 
@@ -19,6 +21,18 @@
 
 .search-box {
   margin: 5px 10px;
+  text-align: center; 
+}
+
+#search_settings_group {
+  margin-top: 5px;
+}
+
+.search-advanced-box {
+  display: inline-block;
+  width: 300px;
+  vertical-align: top;
+  margin: 0em 1em 0em 1em;
 }
 
 .recipe-list-item-image {
@@ -32,10 +46,10 @@
 }
 
 .recipe-list-item-parent {
-  width: 200px;
-  background-color: cornflowerblue;
-  border: solid 4px darkseagreen;
-  margin-bottom: 10px;
+  width: 207px;
+  background-color: #666633;
+  border: solid 3px #666600;
+  margin-bottom: 5px;
   color: whitesmoke;
   font-weight: bold;
 }
@@ -53,6 +67,7 @@
   
   /* Then we define how is distributed the remaining space */
   justify-content: space-around;
+  margin-bottom: 10px;
 }
 
 .recipe-box {

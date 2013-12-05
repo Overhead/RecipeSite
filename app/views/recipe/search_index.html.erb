@@ -1,29 +1,27 @@
 	<div class="search-box">
-	<%= label_tag "Search for recipe", nil, :class => 'search-label'%>
+	<%= image_tag("search-header.png")%>
 	<%= form_tag("/recipe/search", :class=>'form-inline', :id => 'search-form', :remote => true, :method => :get) do %>
 		 <%= text_field_tag	'search_text' , nil,  :placeholder => 'Ex: Onion Soup; Onion, Milk, ....', :name => 'search_string', :class => 'input-xxlarge' %>
 		 <%= button_tag "Search", :class => 'btn btn-primary', :name => nil %>
 		 
 		 <div id="search_settings_group">
-		    <a class="dropdown" data-toggle="collapse" data-target="#search_settings" data-parent="#search_settings_group">Extend for more settings <i class="icon-chevron-down"></i></a>
+		    <a class="dropdown" data-toggle="collapse" data-target="#search_settings" data-parent="#search_settings_group">Advanced settings <i class="icon-chevron-down"></i></a>
 		    <div class="accordion-group" style="border: 0px;">
 		        <div class="collapse indent" id="search_settings">     						
-					<div class="recipe-max-minutes">
+					<div class="search-advanced-box">
 						<%= field_set_tag  "Max minutes",:class => "fieldset_title" do %>
 							<%= number_field_tag 'minutes_text' , nil, in: 0...1001, :placeholder => 'Type in max minutes', :name => 'max_minutes', :class => 'input-large' %>
 						<%end%>
 					</div>	     
-		        	<div class="control-group">
-		        		<div class="controls">
-		        			<%= field_set_tag  "Choose Cuisines",:class => "fieldset_title" do %>		
-				        		<% @cuisineList.each do |cuisine| %>
-				        			<label class="checkbox">
-						        		<%= check_box_tag 'checked_cuisines[cuisine_'+cuisine+']', cuisine, false  %>
-						        		<%= cuisine %>
-						        	</label>
-								<%end%>
+		        	<div class="search-advanced-box">
+	        			<%= field_set_tag  "Choose Cuisines",:class => "fieldset_title" do %>		
+			        		<% @cuisineList.each do |cuisine| %>
+			        			<label class="checkbox">
+					        		<%= check_box_tag 'checked_cuisines[cuisine_'+cuisine+']', cuisine, false  %>
+					        		<%= cuisine %>
+					        	</label>
 							<%end%>
-						</div>
+						<%end%>
 		        	</div>
 		    	</div>
 			</div>
