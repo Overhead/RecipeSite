@@ -16,6 +16,7 @@ class ProfileController < ApplicationController
     end
     unless @user.blank? #Only find recipes if there is a user
       @recipes = Recipe.where("users_id = ?", @user.id)
+      @favorites = UserFavorite.where("user_id = ?",@user.id)
     end
   end
 
