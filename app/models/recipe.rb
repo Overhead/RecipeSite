@@ -11,6 +11,75 @@ class Recipe < ActiveRecord::Base
     full_path.gsub("http://"+host_path, "")
   end
   
+  def self.get_search_recipes(params)
+    
+    #Used to decide what in the list we shall return, start, end
+    #If params is bigger thant 12(page 2++), it shall start at new_page value - 12, else it is first page
+    #recipeListStart = params[:new_page] && params[:new_page].to_i >= 12 ? (params[:new_page].to_i - 12) : 0 
+    #recipeListEnd = params[:new_page] && params[:new_page].to_i >= 12 ? params[:new_page].to_i : 12 
+    
+    #params[:new_page] = 12 24 36 48
+    
+    recipeListHash = {
+        "totalMatchCount" => "",
+        "matches" => []      
+    }
+    
+    recipeList = get_recipes_from_db()
+    # recipeList.each { |recipe|
+      # unless recipe.blank?
+        # recipe_hash = {
+          # "id" => recipe.id,
+          # "recipeName" => recipe.recipeName,
+          # "imageUrls" => [],
+          # "totalTimeInSeconds" => recipe.totalTimeInSeconds,
+          # "rating" => recipe.rating,
+          # "ingredients" => [] 
+        # }
+#         
+        # recipe.recipe_images.each {|img| recipe_hash['imageUrls'].push(img.image_url)}
+        # recipe.ingredients.each {|ing| recipe_hash['ingredients'].push(ing)}
+#         
+        # recipeListHash['matches'].push(recipe_hash)
+      # end
+    # }
+                
+    #Get data from the API
+    yummly_hash = get_recipes_from_api(params)  
+    yummly_hash['matches'].each { |recipe|
+        recipe_hash = {
+          "id" => recipe['id'],
+          "recipeName" => recipe['recipeName'],
+          "imageUrls" => [recipe['smallImageUrls'].first],
+          "totalTimeInSeconds" => recipe['totalTimeInSeconds'],
+          "rating" => recipe['rating'],
+          "ingredients" => [] 
+      }
+      recipe['ingredients'].each {|ing| recipe_hash['ingredients'].push(ing)}
+      recipeListHash['matches'].push(recipe_hash)
+    }
+    
+    recipeListHash['totalMatchCount'] = (yummly_hash['totalMatchCount'].to_i).to_s
+    return recipeListHash
+  end  
+  
+  def self.get_recipes_from_db(params)
+    recipeList = []
+    search_string = params[:search_string]
+    
+    if search_string.include? ";"
+      search_string_array = search_string.split(/;\s*/)
+      recipeName = search_strin_array[0].to_s
+      Recipe.where('recipeName LIKE ?', '%'+recipeName+'%').each {|r| recipeList.push(r) }
+      search_string = (search_string_array != nil) ? search_string_array[1] : ""
+    end
+    
+    search_string.squish.split(/,\s*/).each do |ingred|
+      Ingredient.where("title like ?", ingred.to_s).each{|ing| ing.recipes.each{|r| recipeList.push(r)}}   
+    end
+    
+    return recipe
+  end
   
   def self.get_recipes_from_api(params)
     
@@ -31,9 +100,7 @@ class Recipe < ActiveRecord::Base
     
     #Smart if/else sentence, if it has params set start to that value, else start on 0   
     apiSearchString += params[:new_page] ? "&maxResult=12&start="+params[:new_page] : "&maxResult=12&start=0"
-    
-    
-    puts apiSearchString
+
     uri = URI.parse(apiAuthString+apiSearchString)
     # Shortcut
     response = Net::HTTP.get_response(uri)
@@ -109,7 +176,6 @@ class Recipe < ActiveRecord::Base
           end
           recipeHash['ingredients'].push(ingredient_hash)
       }
-      puts recipeHash['images']
       return recipeHash
     
   end

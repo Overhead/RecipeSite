@@ -12,7 +12,7 @@
     	</div>
     	<div class="recipe-list-item-info-parent">
 			<div class="recipe-list-item-image">
-				<%= image_tag rb['smallImageUrls'].first %> </br>
+				<%= image_tag rb['imageUrls'].first, :size => "90x60"%> </br>
 			</div>
 			<div class="recipe-list-item-info">
 				<i class="icon-time"></i> <%= (rb['totalTimeInSeconds'].to_i / 60).to_s %> Minutes </br>
