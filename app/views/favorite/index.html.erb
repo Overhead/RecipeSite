@@ -1,0 +1,24 @@
+<% if @favorites.blank?%>
+	<h4> No favorites <i class="fa fa-frown-o"></i> <br/> Now go find some! </h4>
+<%else%>
+<h4><%= @favorites.count %> <%= @favorites.count == 1 ? "Favorite" : "Favorites"%> </h4>
+<table class="table table-hover">
+	<thead>
+		<tr>
+			<th>
+				Name
+			</th>
+		</tr>
+	</thead>
+	<tbody>
+		<% @favorites.each do |fav| %>
+		<tr onmouseover="this.style.cursor='pointer'"
+                        onclick="DoNav('<%= recipe_path(fav.favorite.source_id)%>')">
+			<td>
+				<%= fav.favorite.name %>
+			</td>
+		</tr>
+		<%end%>
+	</tbody>
+</table>
+<%end%>
