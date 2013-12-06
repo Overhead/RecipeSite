@@ -3,28 +3,101 @@
 <%= form_for(@recipe, {
             :url => {
               :action => "create" }
-            }) do |f| %>
+            }) do |recipe_form| %>
+
 
   <% if @recipe.errors.any? %>
-  <div id="error_explanation">
-    <h2><%= pluralize(@recipe.errors.count, "error") %> prohibited this recipe from being saved:</h2>
-    <ul>
-    <% @recipe.errors.full_messages.each do |msg| %>
-      <li><%= msg %></li>
-    <% end %>
-    </ul>
-  </div>
+    <div id="error_explanation">
+      <h2><%= pluralize(@recipe.errors.count, "error") %> prohibited this recipe from being saved:</h2>
+      <ul>
+      <% @recipe.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
   <% end %>
 
 
-  <p>
-    <%= f.label :name %><br>
-    <%= f.text_field :name %>
-  </p>
+  <section id="new_recipe">
+    <section>
+      <p>
+        <!-- <div style="float:right">
+          <a><img src="#" style="display:block"></a>
+          <input type="file" accept="image/*">
+        </div> -->
+        <%= recipe_form.label :recipeName %>
+        <%= recipe_form.text_field :recipeName %>
+      </p>
+      <p>
+        <%= recipe_form.label :description %>
+        <%= recipe_form.text_area  :description %>
+      </p>
+    </section>
+
+    <section>
+      <table id="recipe_ingredients_list">
+
+      </table>
+    </section>
+  </section>
+
+  <section id="ingredients_list">
+    <table>
+      <% @ingredients.each do |ingredient| %>
+        <tr
+          data-ingredient-id="<%= ingredient.id %>"
+          data-ingredient-title="<%= ingredient.title %>"
+          data-ingredient-description="<%= ingredient.description %>"
+        >
+          <td>
+            <%= ingredient.title %>
+          </td>
+          <td>
+            <%= ingredient.description %>
+          </td>
+          <td>
+            <a href="#"> + </a>
+          </td>
+        </tr>
+      <% end %>
+    </table>
+  </section>
 
   <p>
-    <%= f.submit %>
+    <%= recipe_form.submit %>
   </p>
 <% end %>
 
 <%= link_to "Back", recipe_index_path %>
+
+<script id="ingredient_template" type="text/template">
+    <tr id='add_ingredient_{ client_id }'>
+      <td>
+        <strong>{ ingredient_title }: </strong>
+      </td>
+      <td>
+        <input id="ingredients_{ client_id }_amount"
+          class="input-small"
+          name="ingredients[{ client_id }][amount]"
+          placeholder="amount"
+          type="text" />
+      </td>
+      <td>
+        <input id="ingredients_{ client_id }_unit"
+          class="input-small"
+          placeholder="unit"
+          name="ingredients[{ client_id }][unit]" type="text" />
+
+        <input id="ingredients_{ client_id }_ingredient_id"
+          name="ingredients[{ client_id }][ingredient_id]" type="hidden"
+          value="{ ingredient_id }"/>
+      </td>
+    </tr>
+</script>
+<!-- To imitate with the template
+<div id='add_ingredient_0'>
+  amount: <input id="ingredients_0_amount" name="ingredients[0][amount]" type="text" />
+  unit: <input id="ingredients_0_unit" name="ingredients[0][unit]" type="text" />
+  ingredient: { ingredient_title }
+  <input id="ingredients_0_ingredient_id" name="ingredients[0][ingredient_id]" type="hidden" />
+</div> -->

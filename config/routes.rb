@@ -4,6 +4,7 @@ RecipeSite::Application.routes.draw do
   resources :recipe, :except => [:index]
   resources :user
   resources :favorite
+  resources :ingredient
   
   get "/profile" => "profile#show"
   resources :profile

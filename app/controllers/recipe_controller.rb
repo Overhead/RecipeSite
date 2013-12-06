@@ -39,30 +39,55 @@ class RecipeController < ApplicationController
   end
   
   def show
-    begin
-      if Recipe.where("id = ?", params[:id]).blank?
-         @recipe = Recipe.get_recipe_from_api(params[:id])
-       else
-         @dbRecipe = Recipe.find(params[:id])
-         @recipe = Recipe.get_recipe_hash(@dbRecipe)
-      end
-      
-      if current_user
-        @is_favorite = Favorite.check_if_favorite(@recipe['id'], current_user)
-      end
-      
-      respond_with(@recipe)
-    rescue
-      render :template => "errors/not_found"
+    if Recipe.where("id = ?", params[:id]).blank?
+      @recipe = Recipe.get_recipe_from_api(params[:id])
+    else
+      @dbRecipe = Recipe.find(params[:id])
+      @recipe = Recipe.get_recipe_hash(@dbRecipe)
     end
+
+    if current_user
+      @is_favorite = Favorite.check_if_favorite(@recipe['id'], current_user)
+    end
+
+    respond_with(@recipe)
   end
   
   def new     #GET /recipe/new
     @recipe = Recipe.new
+    @recipe.recipe_ingredients.build
+    @ingredients = Ingredient.all
   end
 
   def create  #POST /recipe
     @recipe = Recipe.new(recipe_params)
+
+    # Add the user id
+    if current_user; @recipe.users_id = current_user.id end
+
+    # Ingredients hash in params
+    is = params['ingredients']
+    is.each do |k,v|
+
+      # Neede params
+      amount = v['amount']
+      unit = v['unit']
+      ingredient_id = v['ingredient_id'].to_i
+
+      # Only add the recipe_ingredient if the ingredient exists
+      if Ingredient.exists?(ingredient_id)
+        # Make a new recipe_ingredient
+        ingredient = Ingredient.find(ingredient_id)
+        recipe_ingredient = RecipeIngredient.new(
+          amount: amount,
+          unit: unit,
+          ingredient: ingredient
+          )
+
+        # Add it to the recipe
+        @recipe.recipe_ingredients.push(recipe_ingredient)
+      end
+    end
 
     if @recipe.save
       redirect_to @recipe
@@ -71,9 +96,44 @@ class RecipeController < ApplicationController
     end
   end
 
+  def destroy #DELETE /recipe/:id
+    @recipe = Recipe.find(params[:id])
+    @recipe.destroy
+
+    redirect_to recipe_index_path
+  end
+
+
 
   private
-    def recipe_params
-      params.require(:recipe)
+
+  def recipe_params
+    params.require(:recipe).permit(
+      :recipeName,
+      :description,
+      ingredients: [
+        :amount,
+        :unit,
+        :ingredient_id
+      ]
+      #,ingredients: [:name, :description]
+      )
+  end
+
+  def fav_recipe
+    if Recipe.where("id = ?", params[:id]).blank?
+      if Recipe.where("yummly_id = ?", params[:id]).blank?
+        #create yummly recipe, and recipe fav connection to user
+      else
+        #create only recipe fav connection to user
+      end
+    else
+      
     end
+  end
+  
+  def unfav_recipe
+    
+  end
+  
 end
