@@ -89,3 +89,27 @@
 .recipe-description {
   clear: both;
 }
+
+.new-recipe_description,
+.new-recipe_ingredient-list {
+  float: left;
+  margin: 20px;
+}
+
+#recipe_ingredients_list_popover {
+  margin-top: 5px;
+  position: fixed;
+  background-color: solid, white
+}
+
+#ingredients_list td {
+  padding-right: 15px;
+}
+
+#ingredient_title {
+  width: 251px;
+}
+
+.recipe-description {
+  height: 258px
+}
