@@ -188,6 +188,7 @@ class Recipe < ActiveRecord::Base
       }
       parsed['ingredientLines'].each { |line| 
           line_list = splitIngredientLine(line)
+          puts line
           ingredient_hash = {}
           if line_list.size > 3
             ingredient_hash = { 
@@ -195,6 +196,12 @@ class Recipe < ActiveRecord::Base
                             "unit" => line_list[2],
                             "name" => line_list[3]
                              }
+          elsif line_list.count == 1 #If there is only a name, for example: bacon bits
+              ingredient_hash = { 
+                          "amount" => nil, 
+                          "unit" => nil,
+                          "name" => line_list[0]
+                           }
           else
              ingredient_hash = { 
                           "amount" => line_list[1], 
@@ -216,6 +223,7 @@ class Recipe < ActiveRecord::Base
             'pound',
             'pint',
             'ounce' ]
+    
     joined_units = (units.collect{|u| u.pluralize} + units).join('|')
     ingredientList  = line.split(/([\d\/\.\s]+(\([^)]+\))?)\s(#{joined_units})?\s?(.*)/i)
   end

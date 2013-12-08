@@ -50,7 +50,6 @@ class RecipeController < ApplicationController
     if current_user
       @is_favorite = Favorite.check_if_favorite(@recipe['id'], current_user)
     end
-
     respond_with(@recipe)
   end
   
