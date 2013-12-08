@@ -34,7 +34,6 @@ class RecipeController < ApplicationController
       respond_to do |format|
       format.html { }
         format.js   {}
-        format.json { render json: @recipeResult }
       end
     end
   end
@@ -50,7 +49,6 @@ class RecipeController < ApplicationController
     if current_user
       @is_favorite = Favorite.check_if_favorite(@recipe['id'], current_user)
     end
-
     respond_with(@recipe)
   end
   
