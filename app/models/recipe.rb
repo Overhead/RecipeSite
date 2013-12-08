@@ -87,7 +87,7 @@ class Recipe < ActiveRecord::Base
     
     if search_string.include? ";"
       search_string_array = search_string.split(/;\s*/)
-      recipeName = search_strin_array[0].to_s
+      recipeName = search_string_array[0].to_s
       Recipe.where('recipeName LIKE ?', '%'+recipeName+'%').each {|r| recipeList.push(r) }
       search_string = (search_string_array != nil) ? search_string_array[1] : ""
     end
@@ -96,7 +96,7 @@ class Recipe < ActiveRecord::Base
       Ingredient.where("title like ?", ingred.to_s).each{|ing| ing.recipes.each{|r| recipeList.push(r)}}   
     end
     
-    return recipeList
+    return recipeList.uniq
   end
   
   def self.get_yummly_hash(params, requestPage, pagesInDB, offset)
