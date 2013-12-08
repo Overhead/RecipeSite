@@ -12,8 +12,104 @@ class Recipe < ActiveRecord::Base
     full_path.gsub("http://"+host_path, "")
   end
   
-  def self.get_recipes_from_api(params)
+  def self.get_search_recipes(params)
     
+    recipe_db_hash_list = [] #List used to store db recipe hashes
+    recipe_yummly_hash_list = [] #List used to store yummly recipe hashes
+    recipeList = get_recipes_from_db(params) #All recipes from DB
+    
+    params_page = params[:new_page] ? params[:new_page] : 0
+    page = params_page.to_i / 12      #0 = first page, 1,2,n rest pages
+    pagesInDB = (recipeList.count / 12).floor #Get the number of pages that the db recipes will generate
+    offset = recipeList.count % 12 #How many recipes we have to get from elsewhere
+      
+    total_yummly_hash = get_yummly_hash(params, page, pagesInDB, offset) #Get the number of yummmly hashes
+    yummly_list = total_yummly_hash['matches']   #Get the list of recipes from yummly
+    
+    #Create hash from recipes from DB and insert into db_hash_list
+    recipeList.each { |recipe|
+      unless recipe.blank?
+        recipe_hash = {
+          "id" => recipe.id,
+          "recipeName" => recipe.recipeName,
+          "imageUrls" => [],
+          "totalTimeInSeconds" => recipe.totalTimeInSeconds,
+          "rating" => recipe.rating,
+          "ingredients" => [] 
+        }
+        
+        recipe.recipe_images.each {|img| recipe_hash['imageUrls'].push(img.image_url)}
+        recipe.ingredients.each {|ing| recipe_hash['ingredients'].push(ing)}
+        
+        recipe_db_hash_list.push(recipe_hash)
+      end
+    }
+
+    #Create hash for each recipe from Yummly, and inserting into yummly_hash_list
+    yummly_list.each { |recipe|
+        recipe_hash = {
+          "id" => recipe['id'],
+          "recipeName" => recipe['recipeName'],
+          "imageUrls" => [recipe['smallImageUrls'].first],
+          "totalTimeInSeconds" => recipe['totalTimeInSeconds'],
+          "rating" => recipe['rating'],
+          "ingredients" => [] 
+      }
+      recipe['ingredients'].each {|ing| recipe_hash['ingredients'].push(ing)}
+      recipe_yummly_hash_list.push(recipe_hash)
+    }
+    
+    #The final list that only shall show 12 recipes
+    presentation_list = recipe_db_hash_list[page*12, (page*12)+12]
+    
+    #If the list is nil, it is no recipes from the DB in it
+    if presentation_list.nil?
+      presentation_list = recipe_yummly_hash_list
+    elsif presentation_list.count < 12 #If there is ex only 2 recipes from db, insert 10 from yummly
+      presentation_list = presentation_list.concat(recipe_yummly_hash_list)
+    end
+        
+    #The final hash that is sent to view
+    final_recipe_hash = {
+        "totalMatchCount" => "",
+        "matches" => []      
+    }
+
+    #Insert the list of all recipes for given page, and set total number of recipes found
+    final_recipe_hash['matches'] = presentation_list
+    final_recipe_hash['totalMatchCount'] = (total_yummly_hash['totalMatchCount'].to_i + recipeList.count).to_s
+    return final_recipe_hash
+  end  
+    
+  def self.get_recipes_from_db(params)
+    recipeList = []
+    search_string = params[:search_string]
+    
+    if search_string.include? ";"
+      search_string_array = search_string.split(/;\s*/)
+      recipeName = search_strin_array[0].to_s
+      Recipe.where('recipeName LIKE ?', '%'+recipeName+'%').each {|r| recipeList.push(r) }
+      search_string = (search_string_array != nil) ? search_string_array[1] : ""
+    end
+    
+    search_string.squish.split(/,\s*/).each do |ingred|
+      Ingredient.where("title like ?", ingred.to_s).each{|ing| ing.recipes.each{|r| recipeList.push(r)}}   
+    end
+    
+    return recipeList
+  end
+  
+  def self.get_yummly_hash(params, requestPage, pagesInDB, offset)
+    if pagesInDB >= requestPage
+      return get_recipes_from_api(params, 0, (12-offset) == 0 ? 1 : (12-offset))
+    else
+      start_at = ((requestPage - pagesInDB) *12) - offset
+      return get_recipes_from_api(params, start_at, 12)
+    end
+  end
+  
+  def self.get_recipes_from_api(params, start, max_result)
+        
     apiAuthString = "http://api.yummly.com/v1/api/recipes?_app_id="+ENV['APP_ID']+"&_app_key="+ENV['APP_KEY']
     apiSearchString = ""
     
@@ -30,10 +126,9 @@ class Recipe < ActiveRecord::Base
     end
     
     #Smart if/else sentence, if it has params set start to that value, else start on 0   
-    apiSearchString += params[:new_page] ? "&maxResult=12&start="+params[:new_page] : "&maxResult=12&start=0"
-    
-    
-    puts apiSearchString
+    apiSearchString += "&maxResult="+max_result.to_s+"&start="+ start.to_s
+    puts apiSearchString  
+
     uri = URI.parse(apiAuthString+apiSearchString)
     # Shortcut
     response = Net::HTTP.get_response(uri)
@@ -109,7 +204,6 @@ class Recipe < ActiveRecord::Base
           end
           recipeHash['ingredients'].push(ingredient_hash)
       }
-      puts recipeHash['images']
       return recipeHash
     
   end
