@@ -2,6 +2,7 @@ class Recipe < ActiveRecord::Base
   has_many :recipe_ingredients, :dependent => :destroy
   has_many :ingredients, :through => :recipe_ingredients
   has_many :recipe_images, :dependent => :destroy
+  belongs_to :user
   
   require "net/http"
   require "uri"
@@ -184,6 +185,10 @@ class Recipe < ActiveRecord::Base
         "images" => [parsed['images'][0]['hostedLargeUrl']],
         "ingredients" => [],
         "source" => "yummly",
+        "created_by" => {
+                    "id" => "",
+                    "name" => parsed['source']['sourceSiteUrl']
+                },
         "description" => parsed['source']['sourceRecipeUrl']
       }
       parsed['ingredientLines'].each { |line| 
@@ -237,6 +242,10 @@ class Recipe < ActiveRecord::Base
         "images" => [],
         "ingredients" => [],
         "source" => "db",
+        "created_by" => {
+                    "id" => recipe.user_id,
+                    "name" => recipe.user.name
+                },
         "description" => recipe.description
       }
       

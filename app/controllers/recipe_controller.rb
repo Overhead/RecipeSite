@@ -2,7 +2,7 @@ class RecipeController < ApplicationController
   respond_to :xml, :json, :html
   def index
     if current_user
-      @recipes = Recipe.where("users_id = ?", current_user.id)
+      @recipes = current_user.recipes
       respond_with(@recipe)
     else
       require_login

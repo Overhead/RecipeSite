@@ -1,6 +1,7 @@
 class User < ActiveRecord::Base
   has_many :user_favorites, :dependent => :destroy
   has_many :favorites, :through => :user_favorites
+  has_many :recipes, :dependent => :destroy
   validates :name, presence: true
 
   def self.from_omniauth(auth)
