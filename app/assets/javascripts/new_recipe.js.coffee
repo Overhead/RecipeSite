@@ -27,7 +27,9 @@ this.get_ingredient_list = ->
 
   show_create_ingredient = ->
     $('#title').val($('#ingredient_title').val())
-    $('#create-ingredient').removeClass('hidden')
+    # $('#create-ingredient').removeClass('hidden')
+
+  $('a[rel*=facebox]').facebox()
 
 
 this.listenToNewRecipe = ->
@@ -65,17 +67,14 @@ this.listenToNewRecipe = ->
       $(this).addClass 'hidden'
 
     search_string = ev.target.value
-    console.log search_string
 
     found = global.ingredients.filter (ingr) -> 
-      ingr.title.toLowerCase().substr(0,search_string.length) == search_string
+      ingr.title.toLowerCase().substr(0, search_string.length) == search_string.toLowerCase()
 
-    if found.length > 0
-      counter = 10
-      found.forEach (ingr) ->
-        if (counter--)
-          $('#ingredient_' + ingr.id).removeClass('hidden')
-    else
+    counter = 10
+    found.forEach (ingr) ->
+      if (counter-- > 0)
+        $('#ingredient_' + ingr.id).removeClass('hidden')
 
 
 
@@ -88,5 +87,7 @@ this.listenToNewRecipe = ->
     $recipe_ingredients_list_popover.removeClass 'hidden'
 
 $(document).ready ->
+  $.facebox.settings.closeImage = '/images/closelabel.png'
+  $.facebox.settings.loadingImage = '/images/loading.gif'
   global.get_ingredient_list()
   global.listenToNewRecipe()

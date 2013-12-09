@@ -28,6 +28,11 @@
         <%= recipe_form.label :description %>
         <%= recipe_form.text_area  :description, :class=>'new-recipe-description'%>
       </p>
+      <p>
+        <%= recipe_form.label :Image %>
+        <%= text_field_tag :image_url %>
+      </p>
+
     </section>
 
     <section class="new-recipe_ingredient-list">
@@ -49,7 +54,6 @@
   </p>
 <% end %>
 
-
 <section id="create-ingredient" class="clearfix hidden">
   <h1>Create Ingredient</h1>
 
@@ -70,7 +74,6 @@
 
 
 
-<%= link_to "Back", recipe_index_path %>
 
 <script id="ingredient_template" type="text/template">
     <tr id='recipe_ingredient_{ client_id }'>

@@ -2,6 +2,8 @@ class Recipe < ActiveRecord::Base
   has_many :recipe_ingredients, :dependent => :destroy
   has_many :ingredients, :through => :recipe_ingredients
   has_many :recipe_images, :dependent => :destroy
+  accepts_nested_attributes_for :recipe_ingredients
+  accepts_nested_attributes_for :recipe_images
   belongs_to :user
   
   require "net/http"

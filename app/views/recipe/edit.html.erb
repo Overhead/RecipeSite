@@ -1,0 +1,64 @@
+<h1>Edit recipe</h1>
+
+<%= form_for(@recipe, {
+            :url => {
+            	# method on controller
+              :action => "update" }
+
+              # or url with http verb
+							# :url => recipe_index_path,
+							# :method => 'patch'
+            }) do |f| %>
+
+  <% if @recipe.errors.any? %>
+  <div id="error_explanation">
+    <h2><%= pluralize(@recipe.errors.count, "error") %> prohibited this recipe from being saved:</h2>
+    <ul>
+    <% @recipe.errors.full_messages.each do |msg| %>
+      <li><%= msg %></li>
+    <% end %>
+    </ul>
+  </div>
+  <% end %>
+
+
+  <p>
+    <%= f.label :recipeName %><br>
+    <%= f.text_field :recipeName %>
+  </p>
+  <p>
+    <%= f.label :description %><br>
+    <%= f.text_field :description %>
+  </p>
+  
+  <p>
+    <%= f.label :ingredients %><br>
+
+    <% @recipe.recipe_ingredients.each do |recipe_ingredient| %>
+      <%= f.fields_for :recipe_ingredients, recipe_ingredient do |recipe_ingredient_fields| %>
+        <p>
+
+          <strong><%= recipe_ingredient.ingredient.title %>: </strong>
+          <%= recipe_ingredient_fields.text_field :amount, :class => 'input-small' %>
+          <%= recipe_ingredient_fields.text_field :unit, :class => 'input-small'  %>
+        </p>
+      <% end %>
+    <% end %>
+  </p>
+
+  <p>
+    <%= f.label :Images %><br>
+
+    <% @recipe.recipe_images.each do |recipe_image| %>
+      <%= f.fields_for :recipe_images, recipe_image do |recipe_image_fields| %>
+        <%= recipe_image_fields.text_field :image_url %>
+      <% end %>
+    <% end %>
+  </p>
+ 
+  <p>
+    <%= f.submit %>
+  </p>
+<% end %>
+
+<%= link_to "Back", recipe_index_path %>
