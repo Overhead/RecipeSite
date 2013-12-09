@@ -23,6 +23,9 @@
       <p>
         <%= recipe_form.label :recipeName %>
         <%= recipe_form.text_field :recipeName %>
+      </p><p>
+        <%= recipe_form.label :totalTimeInSeconds %>
+        <%= recipe_form.number_field :totalTimeInSeconds %>
       </p>
       <p>
         <%= recipe_form.label :description %>
@@ -32,7 +35,7 @@
         <%= recipe_form.label :Image %>
         <%= text_field_tag :image_url %>
       </p>
-      
+
       <p>
         <%= recipe_form.submit :class => "btn btn-success" %>
       </p>
