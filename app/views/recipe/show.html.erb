@@ -3,7 +3,13 @@
 		<%= image_tag @recipe['images'].first, :size => "360x240" %> 
 	</div>
 	<div class="recipe-info">
-		<h2> <%= @recipe['recipeName'] %> </h2>
+		<span>
+			<h2><%= @recipe['recipeName'] %> </h2>
+			<%= button_to "Edit", "/recipe/#{@recipe['id']}/edit", :method => :get, :class => "btn btn-primary" %>
+			<%= button_to "Delete", "/recipe/#{@recipe['id']}", :method => :delete, :class => "btn btn-danger", :data => { confirm: "Are you sure?" } %>
+		</span>
+
+		
 		<i class="icon-time"></i><span > <%= distance_of_time_in_words(@recipe['totalTimeInSeconds'].to_f) %> (<%= (@recipe['totalTimeInSeconds'].to_f / 60).to_s %> Minutes) </span> </br> 
 		<i class="fa fa-star"></i><span> <%= @recipe['rating'].to_f %> / 6.0 </span> </br>
 		<% if current_user %>

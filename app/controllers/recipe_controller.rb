@@ -73,29 +73,31 @@ class RecipeController < ApplicationController
     @recipe = Recipe.new(recipe_params)
 
     # Add the user id
-    if current_user; @recipe.users_id = current_user.id end
+    if current_user; @recipe.user_id = current_user.id end
 
     # Ingredients hash in params
-    is = params['ingredients']
-    is.each do |k,v|
-
-      # Neede params
-      amount = v['amount']
-      unit = v['unit']
-      ingredient_id = v['ingredient_id'].to_i
-
-      # Only add the recipe_ingredient if the ingredient exists
-      if Ingredient.exists?(ingredient_id)
-        # Make a new recipe_ingredient
-        ingredient = Ingredient.find(ingredient_id)
-        recipe_ingredient = RecipeIngredient.new(
-          amount: amount,
-          unit: unit,
-          ingredient: ingredient
-          )
-
-        # Add it to the recipe
-        @recipe.recipe_ingredients.push(recipe_ingredient)
+    if params['ingredients']
+      is = params['ingredients']
+      is.each do |k,v|
+  
+        # Neede params
+        amount = v['amount']
+        unit = v['unit']
+        ingredient_id = v['ingredient_id'].to_i
+  
+        # Only add the recipe_ingredient if the ingredient exists
+        if Ingredient.exists?(ingredient_id)
+          # Make a new recipe_ingredient
+          ingredient = Ingredient.find(ingredient_id)
+          recipe_ingredient = RecipeIngredient.new(
+            amount: amount,
+            unit: unit,
+            ingredient: ingredient
+            )
+  
+          # Add it to the recipe
+          @recipe.recipe_ingredients.push(recipe_ingredient)
+        end
       end
     end
 
@@ -114,11 +116,11 @@ class RecipeController < ApplicationController
     if current_user
       @recipe = Recipe.find(params[:id])
 
-      if @recipe.users_id == current_user.id
+      if @recipe.user_id == current_user.id
         @recipe.destroy
       end
 
-      redirect_to recipe_index_path
+      redirect_to "/profile"
     else
       require_login
     end
