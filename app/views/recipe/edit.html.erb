@@ -28,7 +28,7 @@
         <%= f.text_field :recipeName %>
       </p>
       <p>
-        <%= f.label :totalTimeInSeconds %><br>
+        <%= f.label :totalTimeInSeconds, 'Total time in seconds' %><br>
         <%= f.number_field :totalTimeInSeconds %>
       </p>
       <p>
@@ -39,7 +39,7 @@
       
       <div class="recipe-edit_submit">
         <p>
-        <%= f.label :Images %><br>
+        <%= f.label :Images, 'Url to image' %><br>
 
         <% @recipe.recipe_images.each do |recipe_image| %>
           <%= f.fields_for :recipe_images, recipe_image do |recipe_image_fields| %>

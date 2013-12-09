@@ -21,10 +21,10 @@
 
     <section class="new-recipe_description span6">
       <p>
-        <%= recipe_form.label :recipeName %>
+        <%= recipe_form.label :recipeName, 'Title' %>
         <%= recipe_form.text_field :recipeName %>
       </p><p>
-        <%= recipe_form.label :totalTimeInSeconds %>
+        <%= recipe_form.label :totalTimeInSeconds, 'Total time in seconds' %>
         <%= recipe_form.number_field :totalTimeInSeconds %>
       </p>
       <p>
@@ -32,7 +32,7 @@
         <%= recipe_form.text_area  :description, :class=>'new-recipe-description clearfix'%>
       </p>
       <p>
-        <%= recipe_form.label :Image %>
+        <%= recipe_form.label :Image, 'Url to Image' %>
         <%= text_field_tag :image_url %>
       </p>
 
@@ -48,7 +48,7 @@
       <table id="recipe_ingredients_list">
       </table>
       <input id="ingredient_title"
-        placeholder="Add an ingredeient"/>
+        placeholder="Add an ingredient"/>
       <div id="recipe_ingredients_list_popover" class="hidden">
         <section id="ingredients_list">
           <%= render :partial => 'ingredient_list' %>
