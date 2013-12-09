@@ -19,8 +19,6 @@ this.get_ingredient_list = ->
     console.log(data)
     global.ingredients.push(data)
 
-this.listenToNewRecipe = ->
-
   $('#show-create-ingredient').on 'click', (ev) ->
     console.log('clicked')
     ev.stopPropagation()
@@ -28,9 +26,11 @@ this.listenToNewRecipe = ->
     show_create_ingredient()
 
   show_create_ingredient = ->
-    $('#title').val($ingredient_title.val())
+    $('#title').val($('#ingredient_title').val())
     $('#create-ingredient').removeClass('hidden')
 
+
+this.listenToNewRecipe = ->
 
   # Click on item in the list to add it
   $recipe_ingredients_list = $("#recipe_ingredients_list")
