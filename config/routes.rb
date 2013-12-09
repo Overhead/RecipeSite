@@ -4,6 +4,7 @@ RecipeSite::Application.routes.draw do
   resources :recipe, :except => [:index]
   resources :user
   resources :favorite
+  resources :ingredient
   
   get "/profile" => "profile#show"
   resources :profile
@@ -17,6 +18,7 @@ RecipeSite::Application.routes.draw do
   post "/recipe/:id/fav" => "favorite#fav_recipe"
   post "/recipe/:id/unfav" => "favorite#unfav_recipe"
 
+  get "/api" => "api#get_recipes"
   
   # You can have the root of your site routed with "root"
   root 'recipe#search_index'

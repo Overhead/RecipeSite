@@ -1,0 +1,5 @@
+var $ingredients_list = $('#ingredients_list')
+$ingredients_list.empty()
+$("<%= escape_javascript( render :partial => "recipe/ingredient_list") %>").appendTo($ingredients_list)
+window.get_ingredient_list()
+$('#create-ingredient').addClass('hidden')

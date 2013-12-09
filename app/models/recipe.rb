@@ -6,6 +6,7 @@ class Recipe < ActiveRecord::Base
   require "net/http"
   require "uri"
   require 'json'
+
   
   def self.get_request_url(full_path, host_path)
     full_path.gsub("http://"+host_path, "")
@@ -73,7 +74,7 @@ class Recipe < ActiveRecord::Base
         "totalMatchCount" => "",
         "matches" => []      
     }
-    
+
     #Insert the list of all recipes for given page, and set total number of recipes found
     final_recipe_hash['matches'] = presentation_list
     final_recipe_hash['totalMatchCount'] = (total_yummly_hash['totalMatchCount'].to_i + recipeList.count).to_s
@@ -86,7 +87,7 @@ class Recipe < ActiveRecord::Base
     
     if search_string.include? ";"
       search_string_array = search_string.split(/;\s*/)
-      recipeName = search_strin_array[0].to_s
+      recipeName = search_string_array[0].to_s
       Recipe.where('recipeName LIKE ?', '%'+recipeName+'%').each {|r| recipeList.push(r) }
       search_string = (search_string_array != nil) ? search_string_array[1] : ""
     end
@@ -95,7 +96,7 @@ class Recipe < ActiveRecord::Base
       Ingredient.where("title like ?", ingred.to_s).each{|ing| ing.recipes.each{|r| recipeList.push(r)}}   
     end
     
-    return recipeList
+    return recipeList.uniq
   end
   
   def self.get_yummly_hash(params, requestPage, pagesInDB, offset)
@@ -187,6 +188,7 @@ class Recipe < ActiveRecord::Base
       }
       parsed['ingredientLines'].each { |line| 
           line_list = splitIngredientLine(line)
+          puts line
           ingredient_hash = {}
           if line_list.size > 3
             ingredient_hash = { 
@@ -194,6 +196,12 @@ class Recipe < ActiveRecord::Base
                             "unit" => line_list[2],
                             "name" => line_list[3]
                              }
+          elsif line_list.count == 1 #If there is only a name, for example: bacon bits
+              ingredient_hash = { 
+                          "amount" => nil, 
+                          "unit" => nil,
+                          "name" => line_list[0]
+                           }
           else
              ingredient_hash = { 
                           "amount" => line_list[1], 
@@ -215,6 +223,7 @@ class Recipe < ActiveRecord::Base
             'pound',
             'pint',
             'ounce' ]
+    
     joined_units = (units.collect{|u| u.pluralize} + units).join('|')
     ingredientList  = line.split(/([\d\/\.\s]+(\([^)]+\))?)\s(#{joined_units})?\s?(.*)/i)
   end

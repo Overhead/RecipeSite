@@ -18,17 +18,10 @@
 window.addEventListener("popstate", popstate);
 
 function DoNav(theUrl) {       
-	 document.location.href = theUrl;
-	 //window.open(
-	 // theUrl
-	  //'_blank'//, // <- This is what makes it open in a new window.
-	  //"width=400,height=400"
-	//);
+  document.location.href = theUrl
 }
 
 function popstate(event){
-	document.getElementById('recipe-result-body').innerHTML = localStorage.getItem(event.state.search_url); 
+	document.getElementById('recipe-result-body').innerHTML = localStorage.getItem(event.state.search_url);
+	window.listenToRecipe()
 }
-
-
-
