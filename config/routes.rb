@@ -7,6 +7,7 @@ RecipeSite::Application.routes.draw do
   resources :user
   resources :favorite
   resources :ingredient
+  resources :recipe_ingredient
   
   get "/profile" => "profile#show"
   resources :profile

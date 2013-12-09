@@ -41,6 +41,9 @@
           <strong><%= recipe_ingredient.ingredient.title %>: </strong>
           <%= recipe_ingredient_fields.text_field :amount, :class => 'input-small' %>
           <%= recipe_ingredient_fields.text_field :unit, :class => 'input-small'  %>
+          <%= link_to 'Destroy', recipe_ingredient_path(recipe_ingredient.id),
+                method: :delete,
+                data: { confirm: "Are you sure?" } %>
         </p>
       <% end %>
     <% end %>
