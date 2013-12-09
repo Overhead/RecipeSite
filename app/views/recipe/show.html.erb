@@ -19,6 +19,11 @@
 				<% end %>
 			</div>
 		<%end%>
+		<div class="created-by-field">
+			<p style="font-weight: bold;"> <span class="label label-info">Created by: </span> 
+				<%= link_to @recipe['created_by']['name'], (@recipe['created_by']['name'].include? "http://") ? @recipe['created_by']['name'] : "/profile/"+(@recipe['created_by']['id']).to_s %> 
+			</p> 
+		</div>
 	</div>
 	<div class="recipe-description">
 		<div class="recipe-ingredients">

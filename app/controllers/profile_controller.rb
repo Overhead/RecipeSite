@@ -15,13 +15,12 @@ class ProfileController < ApplicationController
       @user = User.find(params[:id])
     end
     unless @user.blank? #Only find recipes if there is a user
-      @recipes = Recipe.where("users_id = ?", @user.id)
-      @favorites = UserFavorite.where("user_id = ?",@user.id)
+      @recipes = @user.recipes
+      @favorites = @user.favorites
     end
   end
 
   def update
-    puts params[:user][:first_name]
     @user = current_user
     if @user.update_attributes(:name => params[:user][:first_name] + " " + params[:user][:last_name], :given_name => params[:user][:first_name], :family_name => params[:user][:last_name], :gender => params[:user][:gender])
       respond_to do |format|

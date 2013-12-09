@@ -1,5 +1,7 @@
 RecipeSite::Application.routes.draw do
   
+  get "errors/server_error"
+  get "errors/not_found"
   get "/recipe/search" => "recipe#search_index"
   resources :recipe, :except => [:index]
   resources :user
@@ -26,5 +28,7 @@ RecipeSite::Application.routes.draw do
   # Auth callback route
   get "/auth/:provider/callback", to: "sessions#create"
   get "/signout" => "sessions#destroy", :as => :signout
+  
+  get '*unmatched_route', :to => 'application#raise_not_found!'
 
 end

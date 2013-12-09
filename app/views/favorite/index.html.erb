@@ -13,9 +13,9 @@
 	<tbody>
 		<% @favorites.each do |fav| %>
 		<tr onmouseover="this.style.cursor='pointer'"
-                        onclick="DoNav('<%= recipe_path(fav.favorite.source_id)%>')">
+                        onclick="DoNav('<%= recipe_path(fav.source_id)%>')">
 			<td>
-				<%= fav.favorite.name %>
+				<%= fav.name %>
 			</td>
 		</tr>
 		<%end%>

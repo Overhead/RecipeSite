@@ -2,7 +2,7 @@ class RecipeController < ApplicationController
   respond_to :xml, :json, :html
   def index
     if current_user
-      @recipes = Recipe.where("users_id = ?", current_user.id)
+      @recipes = current_user.recipes
       respond_with(@recipe)
     else
       require_login
@@ -39,17 +39,22 @@ class RecipeController < ApplicationController
   end
   
   def show
-    if Recipe.where("id = ?", params[:id]).blank?
-      @recipe = Recipe.get_recipe_from_api(params[:id])
-    else
-      @dbRecipe = Recipe.find(params[:id])
-      @recipe = Recipe.get_recipe_hash(@dbRecipe)
+    begin
+      if Recipe.where("id = ?", params[:id]).blank?
+        @recipe = Recipe.get_recipe_from_api(params[:id])
+      else
+        @dbRecipe = Recipe.find(params[:id])
+        @recipe = Recipe.get_recipe_hash(@dbRecipe)
+      end
+  
+      if current_user
+        @is_favorite = Favorite.check_if_favorite(@recipe['id'], current_user)
+      end
+      respond_with(@recipe)
+    rescue => ex
+      logger.error ex.message
+      redirect_to :root
     end
-
-    if current_user
-      @is_favorite = Favorite.check_if_favorite(@recipe['id'], current_user)
-    end
-    respond_with(@recipe)
   end
   
   def new     #GET /recipe/new
@@ -64,6 +69,7 @@ class RecipeController < ApplicationController
   end
 
   def create  #POST /recipe
+    begin 
     @recipe = Recipe.new(recipe_params)
 
     # Add the user id
@@ -97,6 +103,10 @@ class RecipeController < ApplicationController
       redirect_to @recipe
     else
       render "new"
+    end
+    rescue => ex
+      logger.error ex.message
+      redirect_to :root
     end
   end
 

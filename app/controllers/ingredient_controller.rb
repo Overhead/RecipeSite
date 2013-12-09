@@ -7,7 +7,6 @@ class IngredientController < ApplicationController
 	end
 
 	def create	#POST /ingredient
-		puts params
 		@ingredient = Ingredient.new(ingredient_params)
 
 		if @ingredient.save
