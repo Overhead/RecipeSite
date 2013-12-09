@@ -36,7 +36,7 @@
 	<div class="recipe-description">
 		<div class="recipe-ingredients">
 		<%= field_set_tag  "Ingredients", :class => "fieldset_title" do %>
-		<% if @recipe['source'] != "db" %>
+		<% if @recipe['source'] != "RecipeSite" %>
 			<%= link_to("Translate Ingredients", "#", :id=>"translate", :class=> "btn btn-info")%>
 		<%end%>
 			<ul>

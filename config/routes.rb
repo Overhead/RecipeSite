@@ -20,7 +20,8 @@ RecipeSite::Application.routes.draw do
   post "/recipe/:id/fav" => "favorite#fav_recipe"
   post "/recipe/:id/unfav" => "favorite#unfav_recipe"
 
-  get "/api" => "api#get_recipes"
+  get "/api/list" => "api#get_recipes"
+  get "/api/find/:id" => "api#get_recipe"
   
   # You can have the root of your site routed with "root"
   root 'recipe#search_index'

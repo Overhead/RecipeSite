@@ -243,7 +243,7 @@ class Recipe < ActiveRecord::Base
         "totalTimeInSeconds" => recipe.totalTimeInSeconds,
         "images" => [],
         "ingredients" => [],
-        "source" => "db",
+        "source" => "RecipeSite",
         "created_by" => {
                     "id" => recipe.user_id,
                     "name" => recipe.user.name
