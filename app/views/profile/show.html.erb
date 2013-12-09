@@ -1,0 +1,22 @@
+<ul class="nav nav-tabs">
+  <li><a href="#my_profile_tab" data-toggle="tab">
+  	<%= image_tag("profile-img.png") %>
+  </a></li>
+  <li><a href="#my_recipes_tab" data-toggle="tab">
+  	<%= image_tag("recipes-img.png") %>
+  </a></li>
+  <li><a href="#my_favorites_tab" data-toggle="tab">
+  	<%= image_tag("favorites-img.png") %>
+  </a></li>
+</ul>
+<div class="tab-content">
+  <div class="tab-pane fade in active" id="my_profile_tab"> 
+  	<%= render :partial => "my_profile"%>
+  </div>
+  <div class="tab-pane fade" id="my_recipes_tab">
+	<%= render :template => "recipe/index"%>
+  </div>
+  <div class="tab-pane fade" id="my_favorites_tab">
+  	<%= render :template => "favorite/index"%>
+  </div>
+</div>

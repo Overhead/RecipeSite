@@ -1,0 +1,41 @@
+<div class="row-fluid" id="recipe-result-body">
+	<% if @recipeResult %>
+	<div class="recipe-result-label"> Recipes found:  <span class="label label-info"><%= @recipeResult['totalMatchCount'] %> </span></div>
+	<div id="recipe-pagination" data-page-number="<%= @recipeResult['totalMatchCount'] %>"></div>
+	<div id="request-url" style="display: none;"> <%= @requesturl %> </div>
+	
+    <div class="flex-container-results">
+    <% @recipeResult['matches'].each do |rb| %>
+    <div class="recipe-list-item-parent" onmouseover="this.style.cursor='pointer'"
+                        onclick="DoNav('<%= recipe_path(rb['id'])%>')">
+    	<div class="recipe-list-item-name">
+    		<%= rb['recipeName'] %>
+    	</div>
+    	<div class="recipe-list-item-info-parent">
+			<div class="recipe-list-item-image">
+				<%= image_tag rb['imageUrls'].first, :size => "90x60"%> </br>
+			</div>
+			<div class="recipe-list-item-info">
+				<i class="icon-time"></i> <%= (rb['totalTimeInSeconds'].to_i / 60).to_s %> Minutes </br>
+				<i class="icon-star"></i> <%= rb['rating'].to_f %> / 6.0 </br>
+				<a class="ingredients-link btn btn-warning btn-small disabled" title="Ingredients"><%= rb['ingredients'].length %> Ingredients
+	                <div class="ingredients-well" style="display: none;">        
+                        <ul>
+                            <% rb['ingredients'].each do |ingred| %>
+                            <li>
+                                    <%= ingred %>
+                            </li>
+                            <%end%>
+                        </ul>
+	                </div> 
+	            </a>
+			</div>
+		</div>
+	</div>
+	<%end%> 
+	</div>
+	<%end%>
+	<% if @recipeResult && @recipeResult['matches'].empty?%>
+		<h3> No results for &laquo<%= @search_word %>&raquo </h3>
+	<%end%>
+</div>

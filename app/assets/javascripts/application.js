@@ -13,5 +13,15 @@
 //= require jquery
 //= require jquery_ujs
 //= require twitter/bootstrap
-//= require turbolinks
 //= require_tree .
+
+window.addEventListener("popstate", popstate);
+
+function DoNav(theUrl) {       
+  document.location.href = theUrl
+}
+
+function popstate(event){
+	document.getElementById('recipe-result-body').innerHTML = localStorage.getItem(event.state.search_url);
+	window.listenToRecipe()
+}

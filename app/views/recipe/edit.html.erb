@@ -1,0 +1,90 @@
+<h1>Edit recipe</h1>
+
+<%= form_for(@recipe, {
+            :url => {
+            	# method on controller
+              :action => "update" }
+
+              # or url with http verb
+							# :url => recipe_index_path,
+							# :method => 'patch'
+            }) do |f| %>
+
+  <% if @recipe.errors.any? %>
+  <div id="error_explanation">
+    <h2><%= pluralize(@recipe.errors.count, "error") %> prohibited this recipe from being saved:</h2>
+    <ul>
+    <% @recipe.errors.full_messages.each do |msg| %>
+      <li><%= msg %></li>
+    <% end %>
+    </ul>
+  </div>
+  <% end %>
+
+  <div class="recipe-edit_container">
+    <div class="recipe-edit_primary">
+      <p>
+        <%= f.label :recipeName, 'Title' %><br>
+        <%= f.text_field :recipeName %>
+      </p>
+      <p>
+        <%= f.label :totalTimeInSeconds, 'Total time in seconds' %><br>
+        <%= f.number_field :totalTimeInSeconds %>
+      </p>
+      <p>
+        <%= f.label :description %><br>
+        <%= f.text_area :description, class: 'new-recipe-description' %>
+      </p>
+
+      
+      <div class="recipe-edit_submit">
+        <p>
+        <%= f.label :Images, 'Url to image' %><br>
+
+        <% @recipe.recipe_images.each do |recipe_image| %>
+          <%= f.fields_for :recipe_images, recipe_image do |recipe_image_fields| %>
+            <%= recipe_image_fields.text_field :image_url %>
+          <% end %>
+        <% end %>
+        </p>
+       
+        <p>
+          <%= f.submit :class => 'btn btn-success' %>
+        </p>
+      </div>
+    </div>
+
+
+    <div class="recipe-edit_secondary clearfix">
+      <p>
+        Ingredients
+
+        <table>
+          <% @recipe.recipe_ingredients.each do |recipe_ingredient| %>
+            <%= f.fields_for :recipe_ingredients, recipe_ingredient do |recipe_ingredient_fields| %>
+              <tr>
+                <td>
+                  <strong><%= recipe_ingredient.ingredient.title %>: </strong>
+                </td>
+                <td>
+                  <%= recipe_ingredient_fields.text_field :amount, :class => 'input-small' %>
+                  
+                </td>
+                <td>
+                  <%= recipe_ingredient_fields.text_field :unit, :class => 'input-small'  %>
+                  
+                </td>
+                <td>
+                  <%= link_to 'Destroy', recipe_ingredient_path(recipe_ingredient.id),
+                          method: :delete,
+                          data: { confirm: "Are you sure?" } %>
+                </td>
+              </tr>
+            <% end %>
+          <% end %>
+        </table>
+      </p>
+    </div>
+
+  </div>
+<% end %>

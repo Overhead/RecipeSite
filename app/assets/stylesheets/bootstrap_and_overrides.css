@@ -4,4 +4,61 @@
   Use Font Awesome icons (default)
   To use Glyphicons sprites instead of Font Awesome, replace with "require twitter-bootstrap-static/sprites"
   =require twitter-bootstrap-static/fontawesome
-  */
+  */ 
+  
+.navbar .nav li.dropdown.open>.dropdown-toggle {
+	background-color: transparent;
+	color: #555555;
+}
+
+.navbar .nav>li>a {
+	float: none;
+	padding: 20px 15px 10px;
+	color: #4B2A11;
+	text-decoration: none;
+	text-shadow: 0 1px 0 #ffffff;
+}
+ 
+.navbar .brand {
+	float: left;
+	display: block;
+	padding: 10px 25px;
+	margin-left: -20px;
+	font-size: 30px;
+	font-weight: 200;
+	color: #777777;
+	text-shadow: 0 1px 0 #61A26B;
+}
+
+.navbar-inner {
+	min-height: 40px;
+	padding-left: 20px;
+	padding-right: 20px;
+	background-color: #FAFAFA;
+	background-image: -moz-linear-gradient(top, #ffffff, #f2f2f2);
+	background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#ffffff), to(#f2f2f2));
+	background-image: -webkit-linear-gradient(top, #ffffff, #f2f2f2);
+	background-image: -o-linear-gradient(top, #ffffff, #f2f2f2);
+	background-image: linear-gradient(to bottom, #B9B2B2, #f2f2f2);
+	background-repeat: repeat-x;
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffffff', endColorstr='#fff2f2f2', GradientType=0);
+	border: 1px solid #d4d4d4;
+	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+	border-radius: 4px;
+	-webkit-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.065);
+	-moz-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.065);
+	box-shadow: 0 1px 4px rgba(0, 0, 0, 0.065);
+}
+
+.pagination {
+	margin: 0px 0px 9px 0px;
+}
+
+.nav-tabs>.active>a, .nav-tabs>.active>a:hover, .nav-tabs>.active>a:focus {
+	color: #555555;
+	background: rgba(255, 255, 255, 0.8);
+	border: 1px solid #ddd;
+	border-bottom-color: transparent;
+	cursor: default;
+}

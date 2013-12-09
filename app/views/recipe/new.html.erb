@@ -1,0 +1,124 @@
+<h1>Create Recipe</h1>
+
+<%= form_for(@recipe, {
+            :url => {
+              :action => "create" }
+            }) do |recipe_form| %>
+
+
+  <% if @recipe.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@recipe.errors.count, "error") %> prohibited this recipe from being saved:</h2>
+      <ul>
+      <% @recipe.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <section id="new_recipe" class="new-recipe">
+
+    <section class="new-recipe_description span6">
+      <p>
+        <%= recipe_form.label :recipeName, 'Title' %>
+        <%= recipe_form.text_field :recipeName %>
+      </p><p>
+        <%= recipe_form.label :totalTimeInSeconds, 'Total time in seconds' %>
+        <%= recipe_form.number_field :totalTimeInSeconds %>
+      </p>
+      <p>
+        <%= recipe_form.label :description %>
+        <%= recipe_form.text_area  :description, :class=>'new-recipe-description clearfix'%>
+      </p>
+      <p>
+        <%= recipe_form.label :Image, 'Url to Image' %>
+        <%= text_field_tag :image_url %>
+      </p>
+
+      <p>
+        <%= recipe_form.submit :class => "btn btn-success" %>
+      </p>
+    </section>
+
+
+    <section class="new-recipe_ingredient-list">
+
+      <%= recipe_form.label :Ingredients %>
+      <table id="recipe_ingredients_list">
+      </table>
+      <input id="ingredient_title"
+        placeholder="Add an ingredient"/>
+      <div id="recipe_ingredients_list_popover" class="hidden">
+        <section id="ingredients_list">
+          <%= render :partial => 'ingredient_list' %>
+        </section>
+      </div>
+
+    </section>
+
+
+  
+
+  </section>
+
+
+<% end %>
+
+<section id="create-ingredient" class="clearfix hidden">
+  <h1>Create Ingredient</h1>
+
+    <%= form_tag('/ingredient', :remote => true) do %>
+      <p>
+        <%= label_tag :title %><br>
+        <%= text_field_tag :title %><br>
+
+        <%= label_tag :description %><br>
+        <%= text_field_tag :description %>
+      </p>
+
+      <p>
+        <%= submit_tag 'Create', :class => "btn btn-success"  %>
+      </p>
+    <% end %>
+</section>
+
+
+
+
+<script id="ingredient_template" type="text/template">
+    <tr id='recipe_ingredient_{ client_id }'>
+      <td>
+        <strong>{ ingredient_title }: </strong>
+      </td>
+      <td>
+        <input id="ingredients_{ client_id }_amount"
+          class="input-small"
+          placeholder="amount"
+          name="ingredients[{ client_id }][amount]"
+          type="text" />
+      </td>
+      <td>
+        <input id="ingredients_{ client_id }_unit"
+          class="input-small"
+          placeholder="unit"
+          name="ingredients[{ client_id }][unit]"
+          type="text"/>
+
+        <input id="ingredients_{ client_id }_ingredient_id"
+          name="ingredients[{ client_id }][ingredient_id]"
+          type="hidden"
+          value="{ ingredient_id }"/>
+      </td>
+      <td>
+        <a href="#" data-destroy-id="recipe_ingredient_{ client_id }">Delete</a>
+      </td>
+    </tr>
+</script>
+<!-- To imitate with the template
+<div id='add_ingredient_0'>
+  amount: <input id="ingredients_0_amount" name="ingredients[0][amount]" type="text" />
+  unit: <input id="ingredients_0_unit" name="ingredients[0][unit]" type="text" />
+  ingredient: { ingredient_title }
+  <input id="ingredients_0_ingredient_id" name="ingredients[0][ingredient_id]" type="hidden" />
+</div> -->

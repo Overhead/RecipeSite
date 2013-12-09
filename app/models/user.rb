@@ -1,16 +1,29 @@
 class User < ActiveRecord::Base
-  has_many :recipe, :through => :user_recipe_history
-  has_many :recipe, :through => :user_recipe_favourite
+  has_many :user_favorites, :dependent => :destroy
+  has_many :favorites, :through => :user_favorites
+  has_many :recipes, :dependent => :destroy
+  validates :name, presence: true
 
   def self.from_omniauth(auth)
-  	find_by_provider_and_uid(auth["provider"], auth["uid"]) || create_with_omniauth(auth)
+  	User.find_by_provider_and_uid(auth["provider"], auth["uid"]) || create_with_omniauth(auth)
   end
 
   def self.create_with_omniauth(auth)
-  	create! do |user|
+  	User.create! do |user|
+
+      puts auth
+
   		user.provider = auth["provider"]
   		user.uid = auth["uid"]
-  		user.name = auth["info"]["name"] || "Anonymous"
+
+      # omniauth puts the id in auth["uid"], used above
+      # user.id = auth["id"]                            #: "104902858181206516235",
+      user.name = auth["info"]["name"]                  #: "Emil Pirfält",
+      user.given_name = auth["info"]["first_name"]      #: "Emil",
+      user.family_name = auth["info"]["last_name"]      #: "Pirfält",
+      user.picture = auth["info"]["image"]              #: "https://lh6.googleusercontent.com/-_lWUgNIu90A/AAAAAAAAAAI/AAAAAAAAAE8/71yFXTVBJ3o/photo.jpg",
+      user.gender = auth["extra"]["gender"]             #: "male",
+      user.locale = auth["extra"]["locale"]             #: "en"
   	end
   end
 

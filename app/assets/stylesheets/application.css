@@ -8,7 +8,56 @@
  * You're free to add application-wide styles to this file and they'll appear at the top of the
  * compiled file, but it's generally better to create a new file per style scope.
  *
- *= require topcoat/desktop-light
  *= require_self
+ *= require font-awesome
  *= require_tree .
  */
+
+
+.fieldset_title legend {
+	margin-bottom: 0;
+}
+
+.login-box {
+	background: rgba(255, 255, 255, 0.8);
+	border: 2px solid;
+	border-radius: 25px;
+	font-weight: bolder;
+	color: black;
+	height: 39px;
+	width: 100px;
+	text-align: center;
+	padding: 9px 2px 2px 2px;
+}
+
+.profile-dropdown {
+	font-size: 20px;
+	font-weight: bolder;
+}
+
+.main-center {
+	margin-left:auto; margin-right:auto; width:70%;
+}
+
+.main-background {
+	background-size: cover;
+	background-repeat:no-repeat;
+	background-image:url('http://www.ngewall.com/images/2013/07/food-art-landscape-hd-desktop-wallpaper-high-definition.jpg')
+}
+
+.main-content {
+  background: rgba(255, 255, 255, 0.8);
+  border:2px solid;
+  border-radius:25px;
+}
+
+.popover-title {
+  color: gray;
+  border-bottom: solid 1px black;
+  font-weight: bold;
+}
+
+.popover-content {
+  color: gray;
+}
+

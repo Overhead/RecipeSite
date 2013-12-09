@@ -36,7 +36,7 @@
 
     <%= javascript_include_tag "application" %>
   </head>
-  <body>
+  <body class="main-background">
 
     <div class="navbar navbar-fluid-top">
       <div class="navbar-inner">
@@ -46,12 +46,26 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </a>
-          <a class="brand" href="#">RecipeSite</a>
+          <%= link_to image_tag("titleRecipe.png"), "/", :class=> "brand"%>
           <div class="container-fluid nav-collapse">
-            <ul class="nav">
-              <li><%= link_to "Link1", "/path1"  %></li>
-              <li><%= link_to "Link2", "/path2"  %></li>
-              <li><%= link_to "Link3", "/path3"  %></li>
+            <ul class="nav navbar-nav pull-right">
+	          <% if current_user %>
+              <li class="dropdown">
+            	<a id="drop1" href="#" role="button" class="dropdown-toggle profile-dropdown" data-toggle="dropdown">
+            		<%= current_user.name %> 
+            		<b class="caret"></b>
+            	</a>
+            	<ul class="dropdown-menu" role="menu" aria-labelledby="drop1">
+	                <li role="presentation"><a role="menuitem" tabindex="-1" href="/profile"><i class="fa fa-user"> My Profile</i></a></li>
+	            	<li role="presentation"> <%= link_to '<i class="fa fa-plus"></i> New Recipe'.html_safe, "/recipe/new" %>  </li>
+	            	<li role="presentation"> <%= link_to '<i class="fa fa-sign-out"></i> Logout'.html_safe, "/signout" %> </li>
+	            </ul>
+              </li>
+              <% else %>
+              <div class="login-box">
+              	<%= link_to image_tag("http://3.bp.blogspot.com/-7jWNZvdcOCQ/ThwvGP8GBlI/AAAAAAAAAVY/UmnWYzNcujA/s1600/google-plus-logo.gif", :size => "32x32") + " Login", "/auth/gplus"%>	                     
+              </div>
+              <%end%>
             </ul>
           </div><!--/.nav-collapse -->
         </div>
@@ -60,17 +74,12 @@
 
     <div class="container-fluid">
       <div class="row-fluid">
-        <div class="span9">
-          <%= bootstrap_flash %>
-          <%= yield %>
-        </div>
+	      <div class="main-center main-content container-fluid">
+	          <%= bootstrap_flash %>
+	          <%= yield %>
+	      </div>
       </div><!--/row-->
 
-      <footer>
-        <p>&copy; Company 2013</p>
-      </footer>
-
     </div> <!-- /container -->
-
   </body>
 </html>

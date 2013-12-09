@@ -1,13 +1,24 @@
-<h1>Recipe#index</h1>
-<p>Find me in app/views/recipe/index.html.erb</p>
+<% if current_user == @user %>
+	<%= button_to "Create new", new_recipe_path, :class => "btn btn-success", :method => :get %>
+<%end%>
 
-<% if current_user %>
-	Welcome
-	uid: <%= current_user.uid %>
-	<br>
-	id: <%= current_user.id %>!
-	<br>
-  <%= link_to "Sign Out", signout_path %>
-<% else %>
-  <%= link_to "Sign in with Google", "/auth/gplus" %>
-<% end %>
+<% if @recipes.blank?%> 
+	<h4> No recipes <i class="fa fa-frown-o"></i> </h4>
+<%else%>
+	<h4><%= @recipes.count %> <%= @recipes.count == 1 ? "Recipe" : "Recipes"%> </h4>
+	<table class="table table-hover">
+		<thead>
+			<tr>
+				<th>Name</th>
+			</tr>
+		</thead>
+		<tbody>
+			<% @recipes.all.each do |rec| %>
+			<tr onmouseover="this.style.cursor='pointer'"
+                        onclick="DoNav('<%= recipe_path(rec.id)%>')">
+				<td> <%= rec.recipeName %></td>
+			</tr>
+			<%end%>
+		</tbody>
+	</table>
+<%end%>
