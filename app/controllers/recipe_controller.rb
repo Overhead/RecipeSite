@@ -102,6 +102,11 @@ class RecipeController < ApplicationController
       end
     end
 
+    # Image url
+    if params['image_url']
+      @recipe.recipe_images.new(:image_url => params['image_url'])
+    end
+
     if @recipe.save
       redirect_to @recipe
     else
@@ -133,6 +138,7 @@ class RecipeController < ApplicationController
   
   def update  #PUT/PATCH /recipe/:id
     if current_user
+
       @recipe = Recipe.find(params[:id])
 
       if @recipe.update(recipe_params)
@@ -145,7 +151,9 @@ class RecipeController < ApplicationController
     end
   end
 
-
+  def edit    #GET /recipe/:id/edit
+    @recipe = Recipe.find(params[:id])
+  end
 
   private
 
@@ -157,6 +165,19 @@ class RecipeController < ApplicationController
         :amount,
         :unit,
         :ingredient_id
+      ],
+      recipe_ingredients_attributes: [
+        [
+          :amount,
+          :unit,
+          :id
+        ]
+      ],
+      recipe_images_attributes: [
+        [
+          :image_url,
+          :id
+        ]
       ]
       #,ingredients: [:name, :description]
       )
