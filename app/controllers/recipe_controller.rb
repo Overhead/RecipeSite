@@ -156,22 +156,5 @@ class RecipeController < ApplicationController
       ]
       #,ingredients: [:name, :description]
       )
-  end
-
-  def fav_recipe
-    if Recipe.where("id = ?", params[:id]).blank?
-      if Recipe.where("yummly_id = ?", params[:id]).blank?
-        #create yummly recipe, and recipe fav connection to user
-      else
-        #create only recipe fav connection to user
-      end
-    else
-      
-    end
-  end
-  
-  def unfav_recipe
-    
-  end
-  
+  end  
 end
