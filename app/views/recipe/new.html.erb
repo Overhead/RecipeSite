@@ -17,23 +17,27 @@
     </div>
   <% end %>
 
+  <section id="new_recipe" class="new-recipe">
 
-  <section id="new_recipe" class="new-recipe clearfix">
-    <section class="new-recipe_description">
+    <section class="new-recipe_description span6">
       <p>
         <%= recipe_form.label :recipeName %>
         <%= recipe_form.text_field :recipeName %>
       </p>
       <p>
         <%= recipe_form.label :description %>
-        <%= recipe_form.text_area  :description, :class=>'new-recipe-description'%>
+        <%= recipe_form.text_area  :description, :class=>'new-recipe-description clearfix'%>
       </p>
       <p>
         <%= recipe_form.label :Image %>
         <%= text_field_tag :image_url %>
       </p>
-
+      
+      <p>
+        <%= recipe_form.submit :class => "btn btn-success" %>
+      </p>
     </section>
+
 
     <section class="new-recipe_ingredient-list">
 
@@ -47,11 +51,15 @@
           <%= render :partial => 'ingredient_list' %>
         </section>
       </div>
+
     </section>
+
+
+  
+
   </section>
-  <p>
-    <%= recipe_form.submit %>
-  </p>
+
+
 <% end %>
 
 <section id="create-ingredient" class="clearfix hidden">
@@ -67,7 +75,7 @@
       </p>
 
       <p>
-        <%= submit_tag %>
+        <%= submit_tag 'Create', :class => "btn btn-success"  %>
       </p>
     <% end %>
 </section>

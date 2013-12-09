@@ -90,7 +90,7 @@ this.listenToNewRecipe = ->
     $recipe_ingredients_list_popover.removeClass 'hidden'
 
 $(document).ready ->
-  $.facebox.settings.closeImage = '/images/closelabel.png'
-  $.facebox.settings.loadingImage = '/images/loading.gif'
+  $.facebox.settings.closeImage = '/assets/closelabel.png'
+  $.facebox.settings.loadingImage = '/assets/loading.gif'
   global.get_ingredient_list()
   global.listenToNewRecipe()

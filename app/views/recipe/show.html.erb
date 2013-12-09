@@ -2,37 +2,40 @@
 	<div class="recipe-image">
 		<%= image_tag @recipe['images'].first, :size => "360x240" %> 
 	</div>
-	<div class="recipe-info">
-		<span>
+
+	<div class="recipe-info clearfix">
+		<div class="recipe-info_header-row">
 			<h2><%= @recipe['recipeName'] %> </h2>
 			<% if current_user && (@recipe['created_by']['id'] == current_user.id) %>
 				<%= button_to "Edit", "/recipe/#{@recipe['id']}/edit", :method => :get, :class => "btn btn-primary" %>
 				<%= button_to "Delete", "/recipe/#{@recipe['id']}", :method => :delete, :class => "btn btn-danger", :data => { confirm: "Are you sure you want to delete recipe: #{@recipe['recipeName']}?" } %>
 			<%end%>
-		</span>
+		</div>
 
-		
-		<i class="icon-time"></i><span > <%= distance_of_time_in_words(@recipe['totalTimeInSeconds'].to_f) %> (<%= (@recipe['totalTimeInSeconds'].to_f / 60).to_s %> Minutes) </span> </br> 
-		<i class="fa fa-star"></i><span> <%= @recipe['rating'].to_f %> / 6.0 </span> </br>
-		<% if current_user %>
-			<div id="fav-recipe-form" class="<%= @is_favorite ? "hidden" : "" %>">
-				<%= form_tag("#{@recipe['id']}/fav", :remote => true) do %>
-				<%= button_tag(raw("<i class=\"fa fa-thumbs-o-up\"> Favorise</i>"), :name => nil, :class => "btn btn-warning")%>
-				<%= hidden_field_tag "", nil, :name => "recipe_name", :value => @recipe['recipeName'] %>
-				<% end %>
+		<div class="recipe-info_secondary">			
+			<i class="icon-time"></i><span > <%= distance_of_time_in_words(@recipe['totalTimeInSeconds'].to_f) %> (<%= (@recipe['totalTimeInSeconds'].to_f / 60).to_s %> Minutes) </span> </br> 
+			<i class="fa fa-star"></i><span> <%= @recipe['rating'].to_f %> / 6.0 </span> </br>
+			<% if current_user %>
+				<div id="fav-recipe-form" class="<%= @is_favorite ? "hidden" : "" %>">
+					<%= form_tag("#{@recipe['id']}/fav", :remote => true) do %>
+					<%= button_tag(raw("<i class=\"fa fa-thumbs-o-up\"> Favorise</i>"), :name => nil, :class => "btn btn-warning")%>
+					<%= hidden_field_tag "", nil, :name => "recipe_name", :value => @recipe['recipeName'] %>
+					<% end %>
+				</div>
+				<div id="unfav-recipe-form" class="<%= @is_favorite ? "" : "hidden" %>">
+					<%= form_tag("#{@recipe['id']}/unfav", :remote => true) do %>
+					<%= button_tag(raw("<i class=\"fa fa-thumbs-o-down\"> Un-Favorise</i>"),:name => nil,  :class => "btn btn-warning")%>
+					<% end %>
+				</div>
+			<%end%>
+			<div class="created-by-field">
+				<p style="font-weight: bold;"> <span class="label label-info">Created by: </span> 
+					<%= link_to @recipe['created_by']['name'], (@recipe['created_by']['name'].include? "http://") ? @recipe['created_by']['name'] : "/profile/"+(@recipe['created_by']['id']).to_s %> 
+				</p> 
 			</div>
-			<div id="unfav-recipe-form" class="<%= @is_favorite ? "" : "hidden" %>">
-				<%= form_tag("#{@recipe['id']}/unfav", :remote => true) do %>
-				<%= button_tag(raw("<i class=\"fa fa-thumbs-o-down\"> Un-Favorise</i>"),:name => nil,  :class => "btn btn-warning")%>
-				<% end %>
-			</div>
-		<%end%>
-		<div class="created-by-field">
-			<p style="font-weight: bold;"> <span class="label label-info">Created by: </span> 
-				<%= link_to @recipe['created_by']['name'], (@recipe['created_by']['name'].include? "http://") ? @recipe['created_by']['name'] : "/profile/"+(@recipe['created_by']['id']).to_s %> 
-			</p> 
 		</div>
 	</div>
+
 	<div class="recipe-description">
 		<div class="recipe-ingredients">
 		<%= field_set_tag  "Ingredients", :class => "fieldset_title" do %>
