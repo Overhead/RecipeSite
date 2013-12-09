@@ -59,7 +59,7 @@
 		</div>
 		<div class="description-text">
 			<%= field_set_tag  "Descriptions", :class => "fieldset_title" do %>
-				<% if @recipe['source'] == "db" %>
+				<% if @recipe['source'] == "RecipeSite" %>
 					<%= @recipe['description'] %>
 				<%else%>
 					<%= button_to "Read description online", @recipe['description'], :class => "btn btn-info"%>
