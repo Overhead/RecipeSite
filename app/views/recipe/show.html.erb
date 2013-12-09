@@ -5,8 +5,10 @@
 	<div class="recipe-info">
 		<span>
 			<h2><%= @recipe['recipeName'] %> </h2>
-			<%= button_to "Edit", "/recipe/#{@recipe['id']}/edit", :method => :get, :class => "btn btn-primary" %>
-			<%= button_to "Delete", "/recipe/#{@recipe['id']}", :method => :delete, :class => "btn btn-danger", :data => { confirm: "Are you sure?" } %>
+			<% if current_user && (@recipe['created_by']['id'] == current_user.id) %>
+				<%= button_to "Edit", "/recipe/#{@recipe['id']}/edit", :method => :get, :class => "btn btn-primary" %>
+				<%= button_to "Delete", "/recipe/#{@recipe['id']}", :method => :delete, :class => "btn btn-danger", :data => { confirm: "Are you sure you want to delete recipe: #{@recipe['recipeName']}?" } %>
+			<%end%>
 		</span>
 
 		

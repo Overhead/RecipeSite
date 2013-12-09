@@ -1,5 +1,6 @@
 <div class="row-fluid" id="recipe-result-body">
 	<% if @recipeResult %>
+	<div class="recipe-result-label"> Recipes found:  <span class="label label-info"><%= @recipeResult['totalMatchCount'] %> </span></div>
 	<div id="recipe-pagination" data-page-number="<%= @recipeResult['totalMatchCount'] %>"></div>
 	<div id="request-url" style="display: none;"> <%= @requesturl %> </div>
 	
@@ -33,5 +34,8 @@
 	</div>
 	<%end%> 
 	</div>
+	<%end%>
+	<% if @recipeResult && @recipeResult['matches'].empty?%>
+		<h3> No results for &laquo<%= @search_word %>&raquo </h3>
 	<%end%>
 </div>

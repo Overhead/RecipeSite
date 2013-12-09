@@ -29,6 +29,7 @@ class RecipeController < ApplicationController
       end
       
       @recipeResult = Recipe.get_search_recipes(params)
+      @search_word = params[:search_string]
       session[:search_params] = params
       session[:search_url] = @requesturl
       respond_to do |format|
@@ -117,6 +118,9 @@ class RecipeController < ApplicationController
       @recipe = Recipe.find(params[:id])
 
       if @recipe.user_id == current_user.id
+        if !Favorite.where("source_id = ?", @recipe.id).blank?
+          Favorite.destroy(Favorite.where("source_id = ?", @recipe.id))
+        end
         @recipe.destroy
       end
 
