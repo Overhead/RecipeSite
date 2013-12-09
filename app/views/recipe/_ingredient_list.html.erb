@@ -1,0 +1,20 @@
+<table>
+  <% @ingredients.each do |ingredient| %>
+    <tr id="ingredient_<%= ingredient.id %>"
+      data-ingredient-id="<%= ingredient.id %>"
+      data-ingredient-title="<%= ingredient.title %>"
+      data-ingredient-description="<%= ingredient.description %>"
+      class="ingredient_row hidden"
+    >
+      <td>
+        <%= ingredient.title %>
+      </td>
+      <td>
+        <%= ingredient.description %>
+      </td>
+      <td>
+        <a href="#"> + </a>
+      </td>
+    </tr>
+  <% end %>
+</table>

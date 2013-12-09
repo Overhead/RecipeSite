@@ -7,10 +7,14 @@ class IngredientController < ApplicationController
 	end
 
 	def create	#POST /ingredient
+		puts params
 		@ingredient = Ingredient.new(ingredient_params)
 
 		if @ingredient.save
-			redirect_to @ingredient
+			@ingredients = Ingredient.all
+			respond_to do |format|
+				format.js
+			end
 		else
 			render "new"
 		end
@@ -28,11 +32,23 @@ class IngredientController < ApplicationController
 		@ingredient = Ingredient.find(params[:id])
 	end
 
+	def update  #PUT/PATCH /ingredients/:id
+		if current_user
+			@ingredient = Ingredient.find(params[:id])
+			if @ingredient.update(ingredient_params)
+					redirect_to @ingredient
+			else
+					render 'edit'
+			end
+		else
+			require_login
+		end
+	end
 
 
   private
   
   def ingredient_params
-		params.require(:ingredient).permit(:title, :description)
+		params.permit(:title, :description)
   end
 end

@@ -53,9 +53,14 @@ class RecipeController < ApplicationController
   end
   
   def new     #GET /recipe/new
-    @recipe = Recipe.new
-    @recipe.recipe_ingredients.build
-    @ingredients = Ingredient.all
+    if current_user
+      @recipe = Recipe.new
+      @recipe.recipe_ingredients.build
+      @ingredients = Ingredient.all
+      @new_ingredient = Ingredient.new
+    else
+      require_login
+    end
   end
 
   def create  #POST /recipe
@@ -96,10 +101,32 @@ class RecipeController < ApplicationController
   end
 
   def destroy #DELETE /recipe/:id
-    @recipe = Recipe.find(params[:id])
-    @recipe.destroy
+    if current_user
+      @recipe = Recipe.find(params[:id])
 
-    redirect_to recipe_index_path
+      if @recipe.users_id == current_user.id
+        @recipe.destroy
+      end
+
+      redirect_to recipe_index_path
+    else
+      require_login
+    end
+  end
+
+  
+  def update  #PUT/PATCH /recipe/:id
+    if current_user
+      @recipe = Recipe.find(params[:id])
+
+      if @recipe.update(recipe_params)
+        redirect_to @recipe
+      else
+        render "edit"
+      end
+    else
+      require_login
+    end
   end
 
 

@@ -92,13 +92,12 @@
 
 .new-recipe_description,
 .new-recipe_ingredient-list {
-  float: left;
   margin: 20px;
+  float: left;
 }
 
 #recipe_ingredients_list_popover {
   margin-top: 5px;
-  position: fixed;
   background-color: solid, white
 }
 
