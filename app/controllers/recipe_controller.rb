@@ -29,6 +29,7 @@ class RecipeController < ApplicationController
       end
       
       @recipeResult = Recipe.get_search_recipes(params)
+      @search_word = params[:search_string]
       session[:search_params] = params
       session[:search_url] = @requesturl
       respond_to do |format|
@@ -76,26 +77,28 @@ class RecipeController < ApplicationController
     if current_user; @recipe.user_id = current_user.id end
 
     # Ingredients hash in params
-    is = params['ingredients'] || []
-    is.each do |k,v|
-
-      # Neede params
-      amount = v['amount']
-      unit = v['unit']
-      ingredient_id = v['ingredient_id'].to_i
-
-      # Only add the recipe_ingredient if the ingredient exists
-      if Ingredient.exists?(ingredient_id)
-        # Make a new recipe_ingredient
-        ingredient = Ingredient.find(ingredient_id)
-        recipe_ingredient = RecipeIngredient.new(
-          amount: amount,
-          unit: unit,
-          ingredient: ingredient
-          )
-
-        # Add it to the recipe
-        @recipe.recipe_ingredients.push(recipe_ingredient)
+    if params['ingredients']
+      is = params['ingredients']
+      is.each do |k,v|
+  
+        # Neede params
+        amount = v['amount']
+        unit = v['unit']
+        ingredient_id = v['ingredient_id'].to_i
+  
+        # Only add the recipe_ingredient if the ingredient exists
+        if Ingredient.exists?(ingredient_id)
+          # Make a new recipe_ingredient
+          ingredient = Ingredient.find(ingredient_id)
+          recipe_ingredient = RecipeIngredient.new(
+            amount: amount,
+            unit: unit,
+            ingredient: ingredient
+            )
+  
+          # Add it to the recipe
+          @recipe.recipe_ingredients.push(recipe_ingredient)
+        end
       end
     end
 
@@ -115,10 +118,13 @@ class RecipeController < ApplicationController
       @recipe = Recipe.find(params[:id])
 
       if @recipe.user_id == current_user.id
+        if !Favorite.where("source_id = ?", @recipe.id).blank?
+          Favorite.destroy(Favorite.where("source_id = ?", @recipe.id))
+        end
         @recipe.destroy
       end
 
-      redirect_to recipe_index_path
+      redirect_to "/profile"
     else
       require_login
     end
@@ -154,22 +160,5 @@ class RecipeController < ApplicationController
       ]
       #,ingredients: [:name, :description]
       )
-  end
-
-  def fav_recipe
-    if Recipe.where("id = ?", params[:id]).blank?
-      if Recipe.where("yummly_id = ?", params[:id]).blank?
-        #create yummly recipe, and recipe fav connection to user
-      else
-        #create only recipe fav connection to user
-      end
-    else
-      
-    end
-  end
-  
-  def unfav_recipe
-    
-  end
-  
+  end  
 end
