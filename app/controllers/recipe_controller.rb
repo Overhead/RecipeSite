@@ -73,10 +73,10 @@ class RecipeController < ApplicationController
     @recipe = Recipe.new(recipe_params)
 
     # Add the user id
-    if current_user; @recipe.users_id = current_user.id end
+    if current_user; @recipe.user_id = current_user.id end
 
     # Ingredients hash in params
-    is = params['ingredients']
+    is = params['ingredients'] || []
     is.each do |k,v|
 
       # Neede params
@@ -114,7 +114,7 @@ class RecipeController < ApplicationController
     if current_user
       @recipe = Recipe.find(params[:id])
 
-      if @recipe.users_id == current_user.id
+      if @recipe.user_id == current_user.id
         @recipe.destroy
       end
 
