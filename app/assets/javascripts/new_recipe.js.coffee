@@ -27,7 +27,6 @@ this.get_ingredient_list = ->
 
   show_create_ingredient = ->
     $('#title').val($('#ingredient_title').val())
-    # $('#create-ingredient').removeClass('hidden')
 
   $('a[rel*=facebox]').facebox()
 
@@ -50,6 +49,10 @@ this.listenToNewRecipe = ->
     template = get_ingredient_template()
     console.log template, template_data
     row = global.get_new_element(template, template_data)
+    row.find('a').on 'click', (ev) ->
+      ev.preventDefault()
+      ev.stopPropagation()
+      $('#' + $(this).attr('data-destroy-id')).remove()
     $recipe_ingredients_list.prepend(row)
 
 
