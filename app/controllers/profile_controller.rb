@@ -21,7 +21,6 @@ class ProfileController < ApplicationController
   end
 
   def update
-    puts params[:user][:first_name]
     @user = current_user
     if @user.update_attributes(:name => params[:user][:first_name] + " " + params[:user][:last_name], :given_name => params[:user][:first_name], :family_name => params[:user][:last_name], :gender => params[:user][:gender])
       respond_to do |format|
