@@ -27,7 +27,6 @@ this.get_ingredient_list = ->
 
   show_create_ingredient = ->
     $('#title').val($('#ingredient_title').val())
-    # $('#create-ingredient').removeClass('hidden')
 
   $('a[rel*=facebox]').facebox()
 
@@ -50,6 +49,10 @@ this.listenToNewRecipe = ->
     template = get_ingredient_template()
     console.log template, template_data
     row = global.get_new_element(template, template_data)
+    row.find('a').on 'click', (ev) ->
+      ev.preventDefault()
+      ev.stopPropagation()
+      $('#' + $(this).attr('data-destroy-id')).remove()
     $recipe_ingredients_list.prepend(row)
 
 
@@ -87,7 +90,7 @@ this.listenToNewRecipe = ->
     $recipe_ingredients_list_popover.removeClass 'hidden'
 
 $(document).ready ->
-  $.facebox.settings.closeImage = '/images/closelabel.png'
-  $.facebox.settings.loadingImage = '/images/loading.gif'
+  $.facebox.settings.closeImage = '/assets/closelabel.png'
+  $.facebox.settings.loadingImage = '/assets/loading.gif'
   global.get_ingredient_list()
   global.listenToNewRecipe()

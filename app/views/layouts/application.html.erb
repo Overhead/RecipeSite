@@ -56,8 +56,9 @@
             		<b class="caret"></b>
             	</a>
             	<ul class="dropdown-menu" role="menu" aria-labelledby="drop1">
-	                <li role="presentation"><a role="menuitem" tabindex="-1" href="/profile">My Profile</a></li>
-	            	<li role="presentation"> <%= link_to "Logout", "/signout" %> </li>
+	                <li role="presentation"><a role="menuitem" tabindex="-1" href="/profile"><i class="fa fa-user"> My Profile</i></a></li>
+	            	<li role="presentation"> <%= link_to '<i class="fa fa-plus"></i> New Recipe'.html_safe, "/recipe/new" %>  </li>
+	            	<li role="presentation"> <%= link_to '<i class="fa fa-sign-out"></i> Logout'.html_safe, "/signout" %> </li>
 	            </ul>
               </li>
               <% else %>

@@ -161,6 +161,7 @@ class RecipeController < ApplicationController
     params.require(:recipe).permit(
       :recipeName,
       :description,
+      :totalTimeInSeconds,
       ingredients: [
         :amount,
         :unit,

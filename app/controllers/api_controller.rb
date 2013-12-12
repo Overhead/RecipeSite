@@ -16,7 +16,7 @@ class ApiController < ApplicationController
       render json: {:error => "Error with search parameter"}, :status => 400
     else
       begin
-        if Recipe.where("id = ?", params[:id])
+        if !Recipe.where("id = ?", params[:id]).blank?
           @recipe = Recipe.get_recipe_hash(Recipe.find(params[:id]))
           render json: @recipe
         else

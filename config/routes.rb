@@ -4,9 +4,10 @@ RecipeSite::Application.routes.draw do
   get "errors/not_found"
   get "/recipe/search" => "recipe#search_index"
   resources :recipe, :except => [:index]
-  resources :user
+  #resources :user
   resources :favorite
   resources :ingredient
+  resources :recipe_ingredient
   
   get "/profile" => "profile#show"
   resources :profile
