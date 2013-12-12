@@ -85,7 +85,9 @@ class Recipe < ActiveRecord::Base
   end  
     
   def self.get_recipes_from_db(params)
+    finalRecipeList = []
     recipeList = []
+    ingredientList = []
     search_string = params[:search_string]
     puts params[:search_string]
     
@@ -94,14 +96,50 @@ class Recipe < ActiveRecord::Base
       recipeName = search_string_array[0].to_s
       Recipe.where('recipeName LIKE ?', '%'+recipeName+'%').each {|r| recipeList.push(r) }
       search_string = (search_string_array[1] != nil) ? search_string_array[1] : ""
-      puts search_string
     end
     
-        search_string.squish.split(/,\s*/).each do |ingred|
-          Ingredient.where("title like ?", ingred.to_s).each{|ing| ing.recipes.each{|r| recipeList.push(r)}}     
+    ingredientList = search_string.squish.split(/,\s*/) 
+
+    if ingredientList.blank? && !recipeList.blank?
+      recipeList.each {|rec| finalRecipeList.push(rec)}
+    else    
+      #If there is a recipes found with name, see if it contains all search ingredients
+      if !recipeList.blank? 
+        recipeList.each do |rec|
+          if recipe_contain_ingredients(rec, ingredientList)
+            finalRecipeList.push(rec)
+          end
+        end #Each end
+      end #Blank? end
+      
+      #Check all recipes and find them who contain all ingredients
+      Recipe.all.each do |rec|
+        if recipe_contain_ingredients(rec, ingredientList)
+          finalRecipeList.push(rec)
+        end
+      end #each end
+    end #ingredientList.blank? && !recipeList.blank? END    
+    
+    return finalRecipeList.uniq
+  end
+  
+  def self.recipe_contain_ingredients(rec, ingredList)
+    counter = 0
+    
+    ingredList.each do |ingred| #Loop through all the search ingredients
+      rec.ingredients.each do |rIngred| #Loop through all ingredients in given recipe
+        if rIngred.title.casecmp(ingred) == 0 #Recipe ingredient and search ingredient matches
+          puts ingred + " equals " + rIngred.title
+          counter += 1
+        end
+      end
     end
     
-    return recipeList.uniq
+    if counter >= ingredList.count #If 2 ingredients are searched for, recipe need to contain both
+      return true
+    else 
+      return false
+    end    
   end
   
   def self.get_yummly_hash(params, requestPage, pagesInDB, offset)
