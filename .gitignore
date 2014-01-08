@@ -26,3 +26,7 @@
 
 # API authentication
 auth_secrets.rb
+
+# DB server config
+config/database.yml
+
