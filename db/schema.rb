@@ -41,8 +41,8 @@ ActiveRecord::Schema.define(version: 20131209102112) do
     t.datetime "updated_at"
   end
 
-  add_index "recipe_cuisines", ["cuisine_id"], name: "index_recipe_cuisines_on_cuisine_id"
-  add_index "recipe_cuisines", ["recipe_id"], name: "index_recipe_cuisines_on_recipe_id"
+  add_index "recipe_cuisines", ["cuisine_id"], name: "index_recipe_cuisines_on_cuisine_id", using: :btree
+  add_index "recipe_cuisines", ["recipe_id"], name: "index_recipe_cuisines_on_recipe_id", using: :btree
 
   create_table "recipe_images", force: true do |t|
     t.text     "image_url"
@@ -51,7 +51,7 @@ ActiveRecord::Schema.define(version: 20131209102112) do
     t.datetime "updated_at"
   end
 
-  add_index "recipe_images", ["recipe_id"], name: "index_recipe_images_on_recipe_id"
+  add_index "recipe_images", ["recipe_id"], name: "index_recipe_images_on_recipe_id", using: :btree
 
   create_table "recipe_ingredients", force: true do |t|
     t.float    "amount"
@@ -62,8 +62,8 @@ ActiveRecord::Schema.define(version: 20131209102112) do
     t.integer  "recipe_id"
   end
 
-  add_index "recipe_ingredients", ["ingredient_id"], name: "index_recipe_ingredients_on_ingredient_id"
-  add_index "recipe_ingredients", ["recipe_id"], name: "index_recipe_ingredients_on_recipe_id"
+  add_index "recipe_ingredients", ["ingredient_id"], name: "index_recipe_ingredients_on_ingredient_id", using: :btree
+  add_index "recipe_ingredients", ["recipe_id"], name: "index_recipe_ingredients_on_recipe_id", using: :btree
 
   create_table "recipes", force: true do |t|
     t.string   "recipeName"
@@ -76,7 +76,7 @@ ActiveRecord::Schema.define(version: 20131209102112) do
     t.text     "yummly_id"
   end
 
-  add_index "recipes", ["user_id"], name: "index_recipes_on_user_id"
+  add_index "recipes", ["user_id"], name: "index_recipes_on_user_id", using: :btree
 
   create_table "user_favorites", force: true do |t|
     t.integer  "user_id"
@@ -85,8 +85,8 @@ ActiveRecord::Schema.define(version: 20131209102112) do
     t.datetime "updated_at"
   end
 
-  add_index "user_favorites", ["favorite_id"], name: "index_user_favorites_on_favorite_id"
-  add_index "user_favorites", ["user_id"], name: "index_user_favorites_on_user_id"
+  add_index "user_favorites", ["favorite_id"], name: "index_user_favorites_on_favorite_id", using: :btree
+  add_index "user_favorites", ["user_id"], name: "index_user_favorites_on_user_id", using: :btree
 
   create_table "users", force: true do |t|
     t.string   "name"
@@ -103,6 +103,6 @@ ActiveRecord::Schema.define(version: 20131209102112) do
     t.string   "locale"
   end
 
-  add_index "users", ["uid"], name: "index_users_on_uid"
+  add_index "users", ["uid"], name: "index_users_on_uid", using: :btree
 
 end
